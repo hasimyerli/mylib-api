@@ -1,2 +1,2 @@
-# mylib
-mylib
+# symfony-api-template
+symfony-api-template
