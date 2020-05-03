@@ -1,0 +1,6 @@
+symfony:
+  is:
+    great: Symfony harika
+    amazing: Symfony çılgın
+  has:
+    bundles: Symfony'de paketler var.
