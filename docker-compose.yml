@@ -12,7 +12,6 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      #- ./docker/database/init.sql:/docker-entrypoint-initdb.d/init.sql
       - ./docker/database/data:/var/lib/mysql
 
   php-fpm:
@@ -23,7 +22,7 @@ services:
     environment:
       - APP_ENV=${APP_ENV}
       - APP_SECRET=${APP_SECRET}
-      - DATABASE_URL=mysql://${DATABASE_USER}:${DATABASE_PASSWORD}@database:3306/${DATABASE_NAME}?serverVersion=5.7
+      - DATABASE_URL=mysql://${DATABASE_USER}:${DATABASE_PASSWORD}@${DATABASE_HOST}:3306/${DATABASE_NAME}?serverVersion=5.7
     volumes:
       - ./:/var/www
 
@@ -39,6 +38,6 @@ services:
     depends_on:
       - php-fpm
     ports:
-      - "80:80"
-      - "443:443"
+      - "${NGINX_HTTP_PORT}:80"
+      - "${NGINX_HTTPS_PORT}:443"
 
