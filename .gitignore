@@ -1,7 +1,7 @@
 .env
 .idea
 docker/database/data/*
-docker/logs/nginx/.log
+docker/logs/nginx/*
 /.env.local
 /.env.local.php
 /.env.*.local
