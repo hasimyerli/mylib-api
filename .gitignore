@@ -9,3 +9,4 @@ docker/logs/nginx/*
 /public/bundles/
 /var/
 /vendor/
+/config/jwt/*.pem
