@@ -1,0 +1,8 @@
+auth_sign_in:
+  path: /auth/sign-in
+  methods: [POST]
+
+auth_sign_up:
+  path: /auth/sign-up
+  controller: App\Controller\Api\Auth\SignUpController:signUp
+  methods: [POST]

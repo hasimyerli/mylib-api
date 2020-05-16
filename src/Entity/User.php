@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\Status;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -40,12 +41,12 @@ class User implements UserInterface
     private $mobilePhone;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="string", length=30, unique=true)
      */
     private $username;
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="string", length=128)
      */
     private $password;
 
@@ -57,12 +58,12 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="boolean", options={"default" : 0})
      */
-    private $isEmailConfirmed;
+    private $isEmailConfirmed = 0;
 
     /**
      * @ORM\Column(type="integer", options={"default" : 1})
      */
-    private $status;
+    private $status = Status::ACTIVE;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user")
