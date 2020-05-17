@@ -3,5 +3,5 @@ symfony-api-template
 This is template
 
 
-## Symfony Best Practices
+## Framework Best Practices
 https://symfony.com/doc/current/best_practices.html
