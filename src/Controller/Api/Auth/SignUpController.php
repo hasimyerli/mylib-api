@@ -2,21 +2,37 @@
 
 namespace App\Controller\Api\Auth;
 
+use App\Controller\Api\ApiAbstractController;
+use App\Response\ApiResponse\JsonFailureResponse;
+use App\Response\ApiResponse\JsonSuccessResponse;
 use App\Entity\User;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\UserType;
+use App\Service\User\UserService;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class SignUpController extends AbstractController
+class SignUpController extends ApiAbstractController
 {
     /**
      * @param Request $request
-     * @param UserPasswordEncoderInterface $encoder
-     * @return Response
+     * @param UserService $userService
+     * @return JsonResponse
      */
-    public function signUp(Request $request, UserPasswordEncoderInterface $encoder)
+    public function signUp(Request $request, UserService $userService)
     {
+        $user = new User();
+
+        $form = $this->ValidForm(UserType::class, $user, $request);
+
+        if ($form->isValid()) {
+            $userService->saveUser($user);
+            return JsonSuccessResponse::build()
+                ->getResponse();
+        }
+
+        return JsonFailureResponse::build()
+            ->setValidations($form->getValidations())
+            ->getResponse();
     }
 }

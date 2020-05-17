@@ -13,6 +13,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
+    public const USERNAME_MIN_LENGTH = 3;
+    public const USERNAME_MAX_LENGTH = 30;
+    public const PASSWORD_MAX_LENGTH = 4;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -84,6 +88,13 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\UserBook", mappedBy="user")
      */
     private $userBooks;
+
+    /**
+     * virtual property
+     *
+     * @var string
+     */
+    private $profileImage;
 
     public function __construct()
     {
@@ -322,6 +333,17 @@ class User implements UserInterface
             }
         }
 
+        return $this;
+    }
+
+    public function getProfileImage(): ?string
+    {
+        return $this->profileImage;
+    }
+
+    public function setProfileImage(?string $profileImage): self
+    {
+        $this->profileImage = $profileImage;
         return $this;
     }
 
