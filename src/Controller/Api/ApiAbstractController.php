@@ -30,7 +30,7 @@ class ApiAbstractController extends AbstractController
      * @param Request $request
      * @return ValidatedForm
      */
-    protected function ValidForm($formType, $entity, Request $request)
+    protected function validForm($formType, $entity, Request $request)
     {
         $validatedForm = new ValidatedForm();
 

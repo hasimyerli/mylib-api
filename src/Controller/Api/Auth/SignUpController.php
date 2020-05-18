@@ -47,7 +47,7 @@ class SignUpController extends ApiAbstractController
     {
         $user = new User();
 
-        $form = $this->ValidForm(UserType::class, $user, $request);
+        $form = $this->validForm(UserType::class, $user, $request);
 
         if ($form->isValid()) {
             $userService->saveUser($user);
