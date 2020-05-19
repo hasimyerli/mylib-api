@@ -4,13 +4,11 @@ namespace App\Form;
 
 
 use App\Entity\UserBook;
-use App\Entity\Book;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class UserBookType extends BaseType
 {
