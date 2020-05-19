@@ -2,3 +2,8 @@ user_get_profile:
   path: /user/profile
   controller: App\Controller\Api\User\UserController:getProfile
   methods: [GET]
+
+user_update_profile:
+  path: /user/profile
+  controller: App\Controller\Api\User\UserController:updateProfile
+  methods: [PUT]

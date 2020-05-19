@@ -19,7 +19,7 @@ class SignUpController extends ApiAbstractController
     /**
      * @SWG\Response(
      *     response=200,
-     *     description="User sign-up service",
+     *     description="User sign-up",
      * )
      * @SWG\Parameter(
      *     name="User body",
@@ -33,6 +33,7 @@ class SignUpController extends ApiAbstractController
      *         @SWG\Property(property="email", type="string"),
      *         @SWG\Property(property="firstName", type="string"),
      *         @SWG\Property(property="lastName", type="string"),
+     *         @SWG\Property(property="mobilePhone", type="string"),
      *         @SWG\Property(property="profileImage", type="string")
      *     )
      * )
@@ -46,7 +47,6 @@ class SignUpController extends ApiAbstractController
     public function signUp(Request $request, UserService $userService)
     {
         $user = new User();
-
         $form = $this->validForm(UserType::class, $user, $request);
 
         if ($form->isValid()) {
