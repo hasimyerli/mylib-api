@@ -1,0 +1,4 @@
+user_get_profile:
+  path: /user/profile
+  controller: App\Controller\Api\User\UserController:getProfile
+  methods: [GET]

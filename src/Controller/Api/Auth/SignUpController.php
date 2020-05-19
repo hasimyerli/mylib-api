@@ -19,7 +19,7 @@ class SignUpController extends ApiAbstractController
     /**
      * @SWG\Response(
      *     response=200,
-     *     description="Returns the rewards of an user",
+     *     description="User sign-up service",
      * )
      * @SWG\Parameter(
      *     name="User body",

@@ -1,2 +1,5 @@
 auth:
   resource: '../Auth/Config/routes.yaml'
+
+user:
+  resource: '../User/Config/routes.yaml'
