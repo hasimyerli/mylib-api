@@ -7,3 +7,9 @@ symfony:
   has:
     # id is symfony.has.bundles
     bundles: Symfony has bundles
+error:
+  book:
+    not_found: Book not found!
+  form: There are errors in form!
+  generic:
+      unknown: Unexpected error!

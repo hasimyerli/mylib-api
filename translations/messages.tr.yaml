@@ -4,3 +4,10 @@ symfony:
     amazing: Symfony çılgın
   has:
     bundles: Symfony'de paketler var.
+error:
+  book:
+    not_found: Kitap bulunamadı!
+  form: Form'da hatalar mevcut!
+  generic:
+    unknown: Bir hata oluştu!
+

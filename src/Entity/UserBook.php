@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\Status;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -46,7 +47,17 @@ class UserBook
     /**
      * @ORM\Column(type="integer")
      */
-    private $status;
+    private $status = Status::ACTIVE;
+
+    /**
+     * @ORM\Column(type="json", nullable=false)
+*/
+    private $listIds = [];
+
+    /**
+     * @ORM\Column(type="json", nullable=false)
+     */
+    private $tagIds = [];
 
     public function getId(): ?int
     {
@@ -124,4 +135,25 @@ class UserBook
 
         return $this;
     }
+
+    public function getListIds(): array
+    {
+        return $this->listIds;
+    }
+
+    public function setListIds(array $listIds): void
+    {
+        $this->listIds = $listIds;
+    }
+
+    public function getTagIds(): array
+    {
+        return $this->tagIds;
+    }
+
+    public function setTagIds(array $tagIds): void
+    {
+        $this->tagIds = $tagIds;
+    }
+
 }

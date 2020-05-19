@@ -19,6 +19,7 @@ security:
             stateless: true
             anonymous: true
             json_login:
+                username_path: email
                 check_path: /api/auth/sign-in
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
@@ -40,4 +41,3 @@ security:
     access_control:
         - { path: ^/api/auth/sign-in, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/auth/sign-up, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }

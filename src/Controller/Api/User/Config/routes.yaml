@@ -1,0 +1,5 @@
+user_book_post:
+  path: /user/books
+  controller: App\Controller\Api\User\UserBookController:saveUserBook
+  methods: [POST]
+
