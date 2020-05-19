@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use Swagger\Annotations as SWG;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserBookController extends ApiAbstractController
 {
@@ -66,7 +67,7 @@ class UserBookController extends ApiAbstractController
      * @param UserBookService $userBookService
      * @return JsonResponse
      */
-    public function saveUserBook(Request $request, UserBookService $userBookService)
+    public function saveUserBook(Request $request, UserBookService $userBookService, TranslatorInterface $translator)
     {
         $userBook = new UserBook();
         $this->validateForm(UserBookType::class, $userBook, $request,$requestParams);
@@ -80,6 +81,7 @@ class UserBookController extends ApiAbstractController
         $userBookService->saveUserBook($this->getUser(), $userBook, $bookId, $listIds, $tagIds);
 
         return JsonSuccessResponse::build()
+            ->setMessage($translator->trans('success.user_book.added_into_library'))
             ->getResponse();
     }
 }

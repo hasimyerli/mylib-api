@@ -11,3 +11,7 @@ error:
   generic:
     unknown: Bir hata oluştu!
 
+success:
+  user_book:
+    added_into_library: Kitap kütüphanenize eklendi!
+

@@ -17,7 +17,7 @@ class BookService extends AbstractService
 {
     private $translator;
 
-    public function __construct(EntityManagerInterface $em,  TranslatorInterface $translator)
+    public function __construct(EntityManagerInterface $em, TranslatorInterface $translator)
     {
         parent::__construct(Book::class, $em);
         $this->translator = $translator;
