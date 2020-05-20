@@ -60,6 +60,11 @@ class ApiAbstractController extends AbstractController
         }
     }
 
+    public function getTranslator() : TranslatorInterface
+    {
+        return $this->translator;
+    }
+
 
 }
 
