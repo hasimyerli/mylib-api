@@ -3,3 +3,8 @@ user_book_post:
   controller: App\Controller\Api\User\UserBookController:saveUserBook
   methods: [POST]
 
+user_book_delete:
+  path: /user/books/{userBookId}
+  controller: App\Controller\Api\User\UserBookController:deleteUserBook
+  methods: [DELETE]
+
