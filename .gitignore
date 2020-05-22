@@ -9,3 +9,4 @@ docker/logs/nginx/*
 /public/bundles/
 /var/
 /vendor/
+.DS_Store

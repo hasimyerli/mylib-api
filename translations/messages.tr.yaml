@@ -4,3 +4,16 @@ symfony:
     amazing: Symfony çılgın
   has:
     bundles: Symfony'de paketler var.
+error:
+  book:
+    not_found: Kitap bulunamadı!
+  form: Form'da hatalar mevcut!
+  generic:
+    unknown: Bir hata oluştu!
+  user_book:
+    not_found: Kitaplığınızda böyle bir kitap bulunamadı!
+
+success:
+  user_book:
+    added_into_library: Kitap kütüphanenize eklendi!
+    deleted_from_library: Kitap kütüphanenizden silindi!

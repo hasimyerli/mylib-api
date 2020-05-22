@@ -7,3 +7,13 @@ user_update_profile:
   path: /user/profile
   controller: App\Controller\Api\User\UserController:updateProfile
   methods: [PUT]
+
+user_book_post:
+  path: /user/books
+  controller: App\Controller\Api\User\UserBookController:saveUserBook
+  methods: [POST]
+
+user_book_delete:
+  path: /user/books/{userBookId}
+  controller: App\Controller\Api\User\UserBookController:deleteUserBook
+  methods: [DELETE]

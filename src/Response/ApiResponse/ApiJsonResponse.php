@@ -8,12 +8,17 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 abstract class ApiJsonResponse
 {
-    private $statusCode = 200;
+    private $statusCode;
     private $code = -1;
     private $message = '';
     private $internalMessage = '';
     private $validations = [];
     private $data = [];
+
+    public function __construct($statusCode)
+    {
+        $this->statusCode = $statusCode;
+    }
 
     public abstract static function build();
 

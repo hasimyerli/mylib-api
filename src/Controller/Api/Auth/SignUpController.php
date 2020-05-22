@@ -47,16 +47,9 @@ class SignUpController extends ApiAbstractController
     public function signUp(Request $request, UserService $userService)
     {
         $user = new User();
-        $form = $this->validForm(UserType::class, $user, $request);
-
-        if ($form->isValid()) {
-            $userService->saveUser($user);
-            return JsonSuccessResponse::build()
-                ->getResponse();
-        }
-
-        return JsonFailureResponse::build()
-            ->setValidations($form->getValidations())
+        $this->validateForm(UserType::class, $user, $request);
+        $userService->saveUser($user);
+        return JsonSuccessResponse::build()
             ->getResponse();
     }
 }

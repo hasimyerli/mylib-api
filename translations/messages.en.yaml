@@ -7,3 +7,16 @@ symfony:
   has:
     # id is symfony.has.bundles
     bundles: Symfony has bundles
+error:
+  book:
+    not_found: Book not found!
+  form: There are errors in form!
+  generic:
+      unknown: Unexpected error!
+  user_book:
+      not_found: No such product in your library!
+
+success:
+  user_book:
+    added_into_library: The book was added into your library!
+    deleted_from_library: The book was deleted from your library!
