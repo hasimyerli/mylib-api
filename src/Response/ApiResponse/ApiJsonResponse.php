@@ -79,12 +79,12 @@ abstract class ApiJsonResponse
         return $this;
     }
 
-    public function getData(): array
+    public function getData()
     {
         return $this->data;
     }
 
-    public function setData(array $data): self
+    public function setData($data): self
     {
         $this->data = $data;
         return $this;

@@ -16,4 +16,5 @@ error:
 success:
   user_book:
     added_into_library: Kitap kütüphanenize eklendi!
+    info_updated: Kitap bilgileriniz güncellendi!
     deleted_from_library: Kitap kütüphanenizden silindi!
