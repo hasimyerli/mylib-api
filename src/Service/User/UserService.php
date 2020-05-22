@@ -26,12 +26,6 @@ class UserService extends AbstractService
         //TODO: $user->getProfileImage(); s3 upload
         $profileImageUrl = "";
         $password = $this->passwordEncoder->encodePassword($user, $user->getPassword());
-
-        // TODO: Şifre güncellenmiş ise jwt date expired
-        if ($user->getPassword() && $user->getPassword() != $password) {
-            // ...
-        }
-
         $user->setPassword($password);
         $user->setProfileImageUrl($profileImageUrl);
         $this->save($user);
