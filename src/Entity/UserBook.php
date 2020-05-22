@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Enum\Status;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserBookRepository")

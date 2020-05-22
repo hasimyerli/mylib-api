@@ -189,7 +189,7 @@ class Book
         return $this;
     }
 
-    public function getAuthors(): ?array
+    public function getAuthors(): ? ArrayCollection
     {
         return $this->authors;
     }

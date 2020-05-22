@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\UserBookType;
 
 
 use App\Entity\UserBook;
+use App\Form\BaseType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -16,32 +17,22 @@ class UserBookType extends BaseType
     {
         $builder
             ->add(
-                  'bookId',
-                        NumberType::class,
-                        [
-                            'mapped' => false,
-                            'constraints' => [new NotBlank()]
-                        ]
+                'listIds',
+                CollectionType::class,
+                [
+                    'allow_add' => true,
+                    'entry_type' => NumberType::class,
+                    'prototype' => true,
+                ]
             )
             ->add(
-                  'listIds',
-                        CollectionType::class,
-                        [
-                            'allow_add' => true,
-                            'entry_type' => NumberType::class,
-                            'mapped' => false,
-                            'prototype' => true,
-                        ]
-            )
-            ->add(
-                  'tagIds',
-                        CollectionType::class,
-                        [
-                            'allow_add' => true,
-                            'entry_type' => NumberType::class,
-                            'mapped' => false,
-                            'prototype' => true,
-                        ]
+                'tagIds',
+                CollectionType::class,
+                [
+                    'allow_add' => true,
+                    'entry_type' => NumberType::class,
+                    'prototype' => true,
+                ]
             )
             ->add(
                 'note',

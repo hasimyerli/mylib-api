@@ -31,9 +31,15 @@ class UserBookService extends AbstractService
         $book = $this->bookService->getBook($bookId);
         $userBook->setUser($user);
         $userBook->setBook($book);
-        $userBook->setListIds($listIds); // Todo: check listIds before add
-        $userBook->setTagIds($tagIds); // // Todo: check tagIds before add
         $this->save($userBook);
+        return $userBook;
+    }
+
+    public function updateUserBook(User $user, UserBook $userBook, $listIds, $tagIds)
+    {
+        $userBook->setUser($user);
+        $this->save($userBook);
+        return $userBook;
     }
 
     public function getUserBook(User $user, int $userBookId): UserBook
