@@ -7,9 +7,9 @@ use App\Service\Book\RateService;
 use App\Controller\Api\ApiAbstractController;
 use App\Response\ApiResponse\JsonSuccessResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use Swagger\Annotations as SWG;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class RateController extends ApiAbstractController

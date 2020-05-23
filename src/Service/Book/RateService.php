@@ -32,23 +32,19 @@ class RateService extends AbstractService
     public function upsertRate(User $user, $bookId, $value)
     {
         $book = $this->bookService->getBook($bookId);
-        try
-        {
-            $newRate = new Rate();
-            $newRate->setBook($book);
-            $newRate->setUser($user);
-            $newRate->setValue($value);
-            $this->save($newRate);
-        }
-        catch (UniqueConstraintViolationException $exception)
-        {
-            $rate =  $this->getRepository()->findOneBy([
-                'user' => $user,
-                'book' => $book
-            ]);
+        $rate =  $this->getRepository()->findOneBy([
+            'user' => $user,
+            'book' => $book
+        ]);
+        if ($rate) {
             $rate->setValue($value);
-            $this->save($rate);
+        } else {
+            $rate = new Rate();
+            $rate->setBook($book);
+            $rate->setUser($user);
+            $rate->setValue($value);
         }
+        $this->save($rate);
     }
 
     protected function getRepository(): RateRepository
