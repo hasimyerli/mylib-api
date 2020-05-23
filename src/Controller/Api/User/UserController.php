@@ -2,7 +2,6 @@
 
 namespace App\Controller\Api\User;
 
-use App\Constant\HttpStatusCode;
 use App\Controller\Api\ApiAbstractController;
 use App\Form\UserProfileUpdateType;
 use App\Formatter\UserProfileFormetter;
@@ -14,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use Swagger\Annotations as SWG;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends ApiAbstractController
@@ -35,7 +35,7 @@ class UserController extends ApiAbstractController
             ExceptionUtil::throwException(
                 JsonFailureResponse::build()
                     ->setMessage($this->getTranslator()->trans('error.user.not_found'))
-                    ->setStatusCode(HttpStatusCode::NOT_FOUND)
+                    ->setStatusCode(Response::HTTP_NOT_FOUND)
             );
         }
 
