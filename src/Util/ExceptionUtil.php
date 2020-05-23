@@ -16,6 +16,6 @@ class ExceptionUtil
 
     public static function throwDefaultException()
     {
-        return ExceptionUtil::throwException(JsonFailureResponse::build());
+        ExceptionUtil::throwException(JsonFailureResponse::build());
     }
 }
