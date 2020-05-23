@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\Status;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,7 +37,7 @@ class Rate
     /**
      * @ORM\Column(type="integer", options={"default" : 1})
      */
-    private $status;
+    private $status = Status::ACTIVE;
 
     public function getId(): ?int
     {

@@ -23,3 +23,8 @@ success:
   user_book:
     added_into_library: The book was added into your library!
     deleted_from_library: The book was deleted from your library!
+  rate:
+    added_rate: You rate for the book!
+validation:
+  rate:
+    invalid_range: Rate in invalid range!

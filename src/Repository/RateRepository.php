@@ -18,14 +18,4 @@ class RateRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Rate::class);
     }
-
-    public function getRateByBookId($bookId)
-    {
-        return (int) $this->createQueryBuilder('r')
-            ->select('count(r.id)')
-            ->where('r.book = :bookId')
-            ->setParameter('bookId', $bookId)
-            ->getQuery()
-            ->getSingleScalarResult();
-    }
 }
