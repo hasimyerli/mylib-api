@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\Status;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -18,13 +19,13 @@ class Rate
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, unique=true)
      */
     private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Book", inversedBy="rates")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=false, unique=true)
      */
     private $book;
 
@@ -36,7 +37,7 @@ class Rate
     /**
      * @ORM\Column(type="integer", options={"default" : 1})
      */
-    private $status;
+    private $status = Status::ACTIVE;
 
     public function getId(): ?int
     {

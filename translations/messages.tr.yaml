@@ -21,3 +21,8 @@ success:
     added_into_library: Kitap kütüphanenize eklendi!
     info_updated: Kitap bilgileriniz güncellendi!
     deleted_from_library: Kitap kütüphanenizden silindi!
+  rate:
+    added_rate: Oy Kullandınız!
+validation:
+  rate:
+    invalid_range: Geçersiz değer aralığında oy kullandınız!

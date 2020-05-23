@@ -1,4 +1,4 @@
-book_rate_get:
+book_rate_post:
   path: /book/{bookId}/rate
-  controller: App\Controller\Api\Book\RateController:getRateByBookId
-  methods: [GET]
+  controller: App\Controller\Api\Book\RateController:upsertRate
+  methods: [POST]
