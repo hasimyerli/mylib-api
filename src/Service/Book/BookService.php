@@ -23,7 +23,7 @@ class BookService extends AbstractService
         $this->translator = $translator;
     }
 
-    public function getBook($bookId)
+    public function getBook($bookId):Book
     {
         $book = $this->find($bookId);
 

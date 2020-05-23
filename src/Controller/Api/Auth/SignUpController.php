@@ -3,7 +3,6 @@
 namespace App\Controller\Api\Auth;
 
 use App\Controller\Api\ApiAbstractController;
-use App\Response\ApiResponse\JsonFailureResponse;
 use App\Response\ApiResponse\JsonSuccessResponse;
 use App\Entity\User;
 use App\Form\UserType;

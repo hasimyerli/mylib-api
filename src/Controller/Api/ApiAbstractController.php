@@ -3,6 +3,7 @@
 namespace App\Controller\Api;
 
 
+use App\Entity\User;
 use App\Form\ValidatedForm;
 use App\Response\ApiResponse\JsonFailureResponse;
 use App\Util\ExceptionUtil;
@@ -65,7 +66,10 @@ class ApiAbstractController extends AbstractController
         return $this->translator;
     }
 
-
+    protected function getUser():User
+    {
+        return parent::getUser();
+    }
 }
 
 

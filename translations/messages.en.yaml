@@ -8,6 +8,8 @@ symfony:
     # id is symfony.has.bundles
     bundles: Symfony has bundles
 error:
+  user:
+    not_found: Your information could not be verified. Please try again!
   book:
     not_found: Book not found!
   form: There are errors in form!
@@ -15,8 +17,9 @@ error:
       unknown: Unexpected error!
   user_book:
       not_found: No such product in your library!
-
 success:
+  user:
+    info_updated: Your information has been updated!
   user_book:
     added_into_library: The book was added into your library!
     deleted_from_library: The book was deleted from your library!

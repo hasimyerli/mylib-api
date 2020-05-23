@@ -5,6 +5,8 @@ symfony:
   has:
     bundles: Symfony'de paketler var.
 error:
+  user:
+    not_found: Bilgileriniz doğrulanamadı. Lütfen tekrar deneyin!
   book:
     not_found: Kitap bulunamadı!
   form: Form'da hatalar mevcut!
@@ -12,8 +14,9 @@ error:
     unknown: Bir hata oluştu!
   user_book:
     not_found: Kitaplığınızda böyle bir kitap bulunamadı!
-
 success:
+  user:
+    info_updated: Bilgileriniz güncellendi!
   user_book:
     added_into_library: Kitap kütüphanenize eklendi!
     info_updated: Kitap bilgileriniz güncellendi!

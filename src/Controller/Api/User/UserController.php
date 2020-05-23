@@ -2,17 +2,18 @@
 
 namespace App\Controller\Api\User;
 
+use App\Constant\HttpStatusCode;
 use App\Controller\Api\ApiAbstractController;
-use App\Entity\User;
 use App\Form\UserProfileUpdateType;
 use App\Formatter\UserProfileFormetter;
 use App\Response\ApiResponse\JsonFailureResponse;
 use App\Response\ApiResponse\JsonSuccessResponse;
 use App\Service\User\UserService;
+use App\Util\ExceptionUtil;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use Swagger\Annotations as SWG;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends ApiAbstractController
@@ -30,17 +31,16 @@ class UserController extends ApiAbstractController
      */
     public function getProfile(UserService $userService)
     {
-        /**
-         * @var User $user
-         */
-        if ($user = $this->getUser()) {
-            return JsonSuccessResponse::build()
-                ->setData(UserProfileFormetter::format($user))
-                ->getResponse();
+        if (!$user = $this->getUser()) {
+            ExceptionUtil::throwException(
+                JsonFailureResponse::build()
+                    ->setMessage($this->getTranslator()->trans('error.user.not_found'))
+                    ->setStatusCode(HttpStatusCode::NOT_FOUND)
+            );
         }
 
-        return JsonFailureResponse::build()
-            ->setMessage("Bilgileriniz doğrulanamadı. Lütfen tekrar deneyin!")
+        return JsonSuccessResponse::build()
+            ->setData(UserProfileFormetter::format($user))
             ->getResponse();
     }
 
@@ -73,21 +73,11 @@ class UserController extends ApiAbstractController
      */
     public function updateProfile(Request $request, UserService $userService)
     {
-        /**
-         * @var User $user
-         */
         $user = $this->getUser();
-        $form = $this->validForm(UserProfileUpdateType::class, $user, $request);
-
-        if ($form->isValid()) {
-            $userService->saveUser($user);
-            return JsonSuccessResponse::build()
-                ->setMessage('Bilgileriniz güncellendi.')
-                ->getResponse();
-        }
-
-        return JsonFailureResponse::build()
-            ->setValidations($form->getValidations())
+        $this->validateForm(UserProfileUpdateType::class, $user, $request);
+        $userService->saveUser($user);
+        return JsonSuccessResponse::build()
+            ->setMessage($this->getTranslator()->trans('success.user.info_updated'))
             ->getResponse();
     }
 }
