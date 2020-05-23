@@ -1,0 +1,4 @@
+book_rate_get:
+  path: /book/{bookId}/rate
+  controller: App\Controller\Api\Book\RateController:getRateByBookId
+  methods: [GET]

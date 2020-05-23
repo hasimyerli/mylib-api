@@ -19,32 +19,13 @@ class RateRepository extends ServiceEntityRepository
         parent::__construct($registry, Rate::class);
     }
 
-    // /**
-    //  * @return Rate[] Returns an array of Rate objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getRateByBookId($bookId)
     {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('r.id', 'ASC')
-            ->setMaxResults(10)
+        return (int) $this->createQueryBuilder('r')
+            ->select('count(r.id)')
+            ->where('r.book = :bookId')
+            ->setParameter('bookId', $bookId)
             ->getQuery()
-            ->getResult()
-        ;
+            ->getSingleScalarResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Rate
-    {
-        return $this->createQueryBuilder('r')
-            ->andWhere('r.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

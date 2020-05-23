@@ -3,3 +3,6 @@ auth:
 
 user:
   resource: '../User/Config/routes.yaml'
+
+book:
+  resource: '../Book/Config/routes.yaml'

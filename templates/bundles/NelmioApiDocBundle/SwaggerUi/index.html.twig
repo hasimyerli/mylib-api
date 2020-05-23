@@ -1,0 +1,68 @@
+{# templates/bundles/NelmioApiDocBundle/SwaggerUi/index.html.twig #}
+
+{#
+    To avoid a "reached nested level" error an exclamation mark `!` has to be added
+    See https://symfony.com/blog/new-in-symfony-3-4-improved-the-overriding-of-templates
+#}
+{% extends '@!NelmioApiDoc/SwaggerUi/index.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- Font Awesome -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+          integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <style>
+        header:before {
+            background: #41444e !important;
+        }
+        #logo {
+            left: 280px !important;
+            color: white;
+        }
+        #logo > span {
+            font-size: 30px;font-weight: bold;
+            font-family: arial, serif;
+            padding-left: 10px;
+        }
+        #api-version {
+            background: white;
+            color: #41444e;
+            font-size: 12px;
+            position: absolute;
+            top: 4px;
+            display: inline-block;
+            padding: 2px 4px;
+            border-radius: 57px;
+        }
+        .information-container {
+            display: none;
+        }
+        .scheme-container {
+            margin-top: 10px;
+        }
+</style>
+{% endblock stylesheets %}
+
+{% block header %}
+    <div id="logo">
+        <i class="fa fa-3x fa-book"></i>
+        <span>
+            <span id="api-title"></span>
+            <small id="api-version"></small>
+        </span>
+    </div>
+{% endblock header %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        const data = JSON.parse(document.getElementById('swagger-data').innerText);
+        const swagger = data.swagger;
+        const info = data.spec;
+        document.getElementById('api-version').innerHTML = data.spec.info.version;
+        document.getElementById('api-title').innerHTML = data.spec.info.title;
+    </script>
+{% endblock javascripts %}
+
+
+
