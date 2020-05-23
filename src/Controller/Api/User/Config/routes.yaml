@@ -13,6 +13,11 @@ user_book_post:
   controller: App\Controller\Api\User\UserBookController:saveUserBook
   methods: [POST]
 
+user_book_get:
+    path: /user/books/{userBookId}
+    controller: App\Controller\Api\User\UserBookController:getUserBook
+    methods: [GET]
+
 user_book_put:
   path: /user/books/{userBookId}
   controller: App\Controller\Api\User\UserBookController:updateUserBook

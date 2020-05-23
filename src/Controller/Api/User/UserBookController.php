@@ -17,51 +17,19 @@ use Swagger\Annotations as SWG;
 class UserBookController extends ApiAbstractController
 {
     /**
-     * @SWG\Response(
-     *     response=200,
-     *     description="Creates user book",
-     * )
-     * @SWG\Parameter(
-     *     name="Authorization",
-     *     in="header",
-     *     required=true,
-     *     type="string",
-     *     default="Bearer TOKEN",
-     *     description="Authorization" )
-     * @SWG\Parameter(
-     *     name="User body",
-     *     in="body",
-     *     type="string",
-     *     required=true,
+     * @SWG\Response(response=200, description="Creates user book")
+     * @SWG\Parameter(name="body", in="body", type="string", required=true,
      *     @SWG\Schema(
      *         type="object",
+     *         @SWG\Property(property="bookId", type="number"),
      *         @SWG\Property(property="note", type="string"),
-     *         @SWG\Property(
-     *                  property="editionNumber",
-     *                  type="array",
-     *                  @SWG\Items(
-     *                      type="number"
-     *                  ),
-     *              ),
-     *        @SWG\Property(
-     *                  property="listIds",
-     *                  type="array",
-     *                  @SWG\Items(
-     *                      type="number"
-     *                  ),
-     *              ),
-     *        @SWG\Property(
-     *                  property="tagIds",
-     *                  type="array",
-     *                  @SWG\Items(
-     *                      type="number"
-     *                  ),
-     *              ),
-     *
+     *         @SWG\Property(property="editionNumber", type="array", @SWG\Items(type="number")),
+     *         @SWG\Property(property="listIds", type="array", @SWG\Items(type="number")),
+     *         @SWG\Property(property="tagIds", type="array", @SWG\Items(type="number")),
      *     )
      * )
+     *
      * @SWG\Tag(name="User/Book")
-     * @Security(name="Bearer")
      *
      * @param Request $request
      * @param UserBookService $userBookService
@@ -70,6 +38,7 @@ class UserBookController extends ApiAbstractController
     public function saveUserBook(Request $request, UserBookService $userBookService)
     {
         $userBook = new UserBook();
+        //dd($userBook);
         $this->validateForm(SaveUserBookType::class, $userBook, $request,$requestParams);
 
         [
@@ -87,56 +56,18 @@ class UserBookController extends ApiAbstractController
     }
 
     /**
-     * @SWG\Response(
-     *     response=200,
-     *     description="Updates user book",
-     * )
-     * @SWG\Parameter(
-     *     name="Authorization",
-     *     in="header",
-     *     required=true,
-     *     type="string",
-     *     default="Bearer TOKEN",
-     *     description="Authorization" )
-     * @SWG\Parameter(
-     *     name="userBookId",
-     *     in="path",
-     *     type="number",
-     *     required=true )
-     * @SWG\Parameter(
-     *     name="User body",
-     *     in="body",
-     *     type="string",
-     *     required=true,
+     * @SWG\Response(response=200, description="Updates user book")
+     * @SWG\Parameter(name="userBookId", in="path", type="number",required=true )
+     * @SWG\Parameter(name="body", in="body", type="string",required=true,
      *     @SWG\Schema(
      *         type="object",
      *         @SWG\Property(property="note", type="string"),
-     *         @SWG\Property(
-     *                  property="editionNumber",
-     *                  type="array",
-     *                  @SWG\Items(
-     *                      type="number"
-     *                  ),
-     *              ),
-     *        @SWG\Property(
-     *                  property="listIds",
-     *                  type="array",
-     *                  @SWG\Items(
-     *                      type="number"
-     *                  ),
-     *              ),
-     *        @SWG\Property(
-     *                  property="tagIds",
-     *                  type="array",
-     *                  @SWG\Items(
-     *                      type="number"
-     *                  ),
-     *              ),
-     *
+     *         @SWG\Property(property="editionNumber", type="array", @SWG\Items(type="number")),
+     *         @SWG\Property(property="listIds", type="array", @SWG\Items(type="number")),
+     *         @SWG\Property(property="tagIds", type="array", @SWG\Items(type="number"))
      *     )
      * )
      * @SWG\Tag(name="User/Book")
-     * @Security(name="Bearer")
      *
      * @param Request $request
      * @param UserBookService $userBookService
@@ -165,15 +96,8 @@ class UserBookController extends ApiAbstractController
     /**
      * @SWG\Response(
      *     response=200,
-     *     description="Deletes user book",
+     *     description="Gets user book",
      * )
-     * @SWG\Parameter(
-     *     name="Authorization",
-     *     in="header",
-     *     required=true,
-     *     type="string",
-     *     default="Bearer TOKEN",
-     *     description="Authorization" )
      * @SWG\Parameter(
      *     name="userBookId",
      *     in="path",
@@ -181,7 +105,33 @@ class UserBookController extends ApiAbstractController
      *     required=true,
      * )
      * @SWG\Tag(name="User/Book")
-     * @Security(name="Bearer")
+     *
+     * @param Request $request
+     * @param UserBookService $userBookService
+     * @return JsonResponse
+     */
+    public function getUserBook(Request $request, UserBookService $userBookService)
+    {
+        $userBookId = $request->get('userBookId');
+        $userBook = $userBookService->getUserBook($this->getUser(), $userBookId);
+
+        return JsonSuccessResponse::build()
+            ->setData(UserBookFormatter::format($userBook))
+            ->getResponse();
+    }
+
+    /**
+     * @SWG\Response(
+     *     response=200,
+     *     description="Deletes user book",
+     * )
+     * @SWG\Parameter(
+     *     name="userBookId",
+     *     in="path",
+     *     type="number",
+     *     required=true,
+     * )
+     * @SWG\Tag(name="User/Book")
      *
      * @param Request $request
      * @param UserBookService $userBookService

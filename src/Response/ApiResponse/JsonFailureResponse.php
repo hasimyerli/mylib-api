@@ -3,13 +3,13 @@
 
 namespace App\Response\ApiResponse;
 
-use App\Constant\HttpStatusCode;
+use Symfony\Component\HttpFoundation\Response;
 
 class JsonFailureResponse extends ApiJsonResponse
 {
     public static function build()
     {
-        return new JsonFailureResponse(HttpStatusCode::INTERNAL_SERVER_ERROR);
+        return new JsonFailureResponse(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     public function isSuccess(): bool

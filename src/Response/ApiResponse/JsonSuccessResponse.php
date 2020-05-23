@@ -3,14 +3,13 @@
 
 namespace App\Response\ApiResponse;
 
-
-use App\Constant\HttpStatusCode;
+use Symfony\Component\HttpFoundation\Response;
 
 class JsonSuccessResponse extends ApiJsonResponse
 {
     public static function build()
     {
-        return new JsonSuccessResponse(HttpStatusCode::OK);
+        return new JsonSuccessResponse(Response::HTTP_OK);
     }
 
     public function isSuccess(): bool

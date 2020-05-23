@@ -4,9 +4,9 @@
 namespace App\EventListener;
 
 
-use App\Constant\HttpStatusCode;
 use App\Response\ApiResponse\JsonFailureResponse;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -38,7 +38,7 @@ class ApiExceptionSubscriber implements EventSubscriberInterface
             }
 
             $jsonResponse = JsonFailureResponse::build()
-                ->setStatusCode(HttpStatusCode::INTERNAL_SERVER_ERROR)
+                ->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR)
                 ->setMessage($this->translator->trans('error.generic.unknown'))
                 ->getResponse();
 

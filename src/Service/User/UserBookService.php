@@ -2,7 +2,6 @@
 
 namespace App\Service\User;
 
-use App\Constant\HttpStatusCode;
 use App\Entity\User;
 use App\Entity\UserBook;
 use App\Enum\Status;
@@ -12,6 +11,7 @@ use App\Service\AbstractService;
 use App\Service\Book\BookService;
 use App\Util\ExceptionUtil;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class UserBookService extends AbstractService
@@ -55,7 +55,7 @@ class UserBookService extends AbstractService
             ExceptionUtil::throwException(
                 JsonFailureResponse::build()
                     ->setMessage($this->translator->trans('error.user_book.not_found'))
-                    ->setStatusCode(HttpStatusCode::NOT_FOUND)
+                    ->setStatusCode(Response::HTTP_NOT_FOUND)
             );
         }
 
