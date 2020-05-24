@@ -2,3 +2,8 @@ book_rate_post:
   path: /book/{bookId}/rate
   controller: App\Controller\Api\Book\RateController:upsertRate
   methods: [POST]
+
+book_comments_get:
+  path: /book/{bookId}/comments
+  controller: App\Controller\Api\Book\CommentController:getCommentsByBookId
+  methods: [GET]
