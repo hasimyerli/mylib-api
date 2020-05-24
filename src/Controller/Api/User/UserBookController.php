@@ -29,7 +29,7 @@ class UserBookController extends ApiAbstractController
      *     )
      * )
      *
-     * @SWG\Tag(name="User/Book")
+     * @SWG\Tag(name="User/Books")
      *
      * @param Request $request
      * @param UserBookService $userBookService
@@ -38,7 +38,7 @@ class UserBookController extends ApiAbstractController
     public function saveUserBook(Request $request, UserBookService $userBookService)
     {
         $userBook = new UserBook();
-        //dd($userBook);
+
         $this->validateForm(SaveUserBookType::class, $userBook, $request,$requestParams);
 
         [
@@ -67,7 +67,7 @@ class UserBookController extends ApiAbstractController
      *         @SWG\Property(property="tagIds", type="array", @SWG\Items(type="number"))
      *     )
      * )
-     * @SWG\Tag(name="User/Book")
+     * @SWG\Tag(name="User/Books")
      *
      * @param Request $request
      * @param UserBookService $userBookService
@@ -104,7 +104,7 @@ class UserBookController extends ApiAbstractController
      *     type="number",
      *     required=true,
      * )
-     * @SWG\Tag(name="User/Book")
+     * @SWG\Tag(name="User/Books")
      *
      * @param Request $request
      * @param UserBookService $userBookService
@@ -131,7 +131,7 @@ class UserBookController extends ApiAbstractController
      *     type="number",
      *     required=true,
      * )
-     * @SWG\Tag(name="User/Book")
+     * @SWG\Tag(name="User/Books")
      *
      * @param Request $request
      * @param UserBookService $userBookService
