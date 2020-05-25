@@ -4,9 +4,9 @@ namespace App\Service\User;
 
 use App\Entity\User;
 use App\Entity\UserBook;
-use App\Entity\UserBookList;
+use App\Entity\UserBookTag;
 use App\Enum\Status;
-use App\Repository\UserBookListRepository;
+use App\Repository\UserBookTagRepository;
 use App\Response\ApiResponse\JsonFailureResponse;
 use App\Service\AbstractService;
 use App\Service\Book\BookService;
@@ -16,62 +16,62 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class UserBookListService extends AbstractService
+class UserBookTagService extends AbstractService
 {
     private $translator;
 
     public function __construct(EntityManagerInterface $em, TranslatorInterface $translator)
     {
-        parent::__construct(UserBookList::class, $em);
+        parent::__construct(UserBookTag::class, $em);
         $this->translator = $translator;
     }
 
-    public function saveUserBookList(User $user, UserBookList $userBookList)
+    public function saveUserBookTag(User $user, UserBookTag $userBookTag)
     {
         try {
-            $userBookList->setUser($user);
-            $this->save($userBookList);
-            return $userBookList;
+            $userBookTag->setUser($user);
+            $this->save($userBookTag);
+            return $userBookTag;
         }
         catch (UniqueConstraintViolationException $error)
         {
             ExceptionUtil::throwException(JsonFailureResponse::build()
-            ->setMessage($this->translator->trans('error.user_book.list.already_exists'))
+            ->setMessage($this->translator->trans('error.user_book.tag.already_exists'))
             ->setStatusCode(Response::HTTP_CONFLICT));
         }
     }
 
-    public function updateUserBookList(User $user, UserBookList $userBookList)
+    public function updateUserBookTag(User $user, UserBookTag $userBookTag)
     {
-        return $this->saveUserBookList($user, $userBookList);
+        return $this->saveUserBookTag($user, $userBookTag);
     }
 
-    public function getUserBookList(User $user, int $userBookListId): UserBookList
+    public function getUserBookTag(User $user, int $userBookTagId): UserBookTag
     {
-        $userBookList = $this->findOneBy([
-            "id" => $userBookListId,
+        $userBookTag = $this->getRepository()->findOneBy([
+            "id" => $userBookTagId,
             "user" => $user
         ]);
 
-        if(!$userBookList)
+        if(!$userBookTag)
         {
             ExceptionUtil::throwException(
                 JsonFailureResponse::build()
-                    ->setMessage($this->translator->trans('error.user_book.list.not_found'))
+                    ->setMessage($this->translator->trans('error.user_book.tag.not_found'))
                     ->setStatusCode(Response::HTTP_NOT_FOUND)
             );
         }
 
-        return $userBookList;
+        return $userBookTag;
     }
 
-    public function deleteUserBookList(User $user, int $userBookListId)
+    public function deleteUserBookTag(User $user, int $userBookTagId)
     {
-        $userBookList = $this->getUserBookList($user, $userBookListId);
+        $userBookList = $this->getUserBookTag($user, $userBookTagId);
         $this->delete($userBookList);
     }
 
-    protected function getRepository(): UserBookListRepository
+    protected function getRepository(): UserBookTagRepository
     {
         return parent::getRepository();
     }

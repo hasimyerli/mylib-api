@@ -25,7 +25,7 @@ class UserBookController extends ApiAbstractController
      *         @SWG\Property(property="note", type="string"),
      *         @SWG\Property(property="editionNumber", type="array", @SWG\Items(type="number")),
      *         @SWG\Property(property="bookListIds", type="array", @SWG\Items(type="number")),
-     *         @SWG\Property(property="tagIds", type="array", @SWG\Items(type="number")),
+     *         @SWG\Property(property="bookTagIds", type="array", @SWG\Items(type="number")),
      *     )
      * )
      *
@@ -44,10 +44,10 @@ class UserBookController extends ApiAbstractController
         [
             'bookId' => $bookId,
             'bookListIds' => $userBookListIds,
-            'tagIds' => $tagIds
+            'bookTagIds' => $userBookTagIds
         ] = $requestParams;
 
-        $newUserBook = $userBookService->saveUserBook($this->getUser(), $userBook, $bookId, $userBookListIds, $tagIds);
+        $newUserBook = $userBookService->saveUserBook($this->getUser(), $userBook, $bookId, $userBookListIds, $userBookTagIds);
 
         return JsonSuccessResponse::build()
             ->setMessage($this->getTranslator()->trans('success.user_book.added_into_library'))
@@ -64,7 +64,7 @@ class UserBookController extends ApiAbstractController
      *         @SWG\Property(property="note", type="string"),
      *         @SWG\Property(property="editionNumber", type="array", @SWG\Items(type="number")),
      *         @SWG\Property(property="bookListIds", type="array", @SWG\Items(type="number")),
-     *         @SWG\Property(property="tagIds", type="array", @SWG\Items(type="number"))
+     *         @SWG\Property(property="bookListTagIds", type="array", @SWG\Items(type="number"))
      *     )
      * )
      * @SWG\Tag(name="User/Books")
@@ -82,10 +82,10 @@ class UserBookController extends ApiAbstractController
 
         [
             'bookListIds' => $userBookListIds,
-            'tagIds' => $tagIds
+            'bookTagIds' => $userBookTagIds
         ] = $requestParams;
 
-        $updatedUserBook = $userBookService->updateUserBook($this->getUser(), $userBook, $userBookListIds, $tagIds);
+        $updatedUserBook = $userBookService->updateUserBook($this->getUser(), $userBook, $userBookListIds, $userBookTagIds);
 
         return JsonSuccessResponse::build()
             ->setMessage($this->getTranslator()->trans('success.user_book.info_updated'))

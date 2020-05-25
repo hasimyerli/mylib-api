@@ -2,24 +2,22 @@
 
 namespace App\Entity;
 
-use App\Enum\Status;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserBookListRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\UserBookTagRepository")
  * @ORM\Table(
- *      name="user_book_list",
+ *      name="user_book_tag",
  *      uniqueConstraints={@ORM\UniqueConstraint(columns={"user_id", "name"})}
  * )
  * @UniqueEntity(
  *      fields={"user","name"}
  * )
  */
-class UserBookList
+class UserBookTag
 {
     /**
      * @ORM\Id()
@@ -29,7 +27,7 @@ class UserBookList
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="userBookLists")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="userBookTags")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -40,7 +38,12 @@ class UserBookList
     private $name;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\UserBook", mappedBy="userBookLists")
+     * @ORM\Column(type="string", length=10, nullable=true)
+     */
+    private $color;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\UserBook", mappedBy="userBookTags")
      */
     private $userBooks;
 
@@ -78,6 +81,18 @@ class UserBookList
         return $this;
     }
 
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): self
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
     /**
      * @return Collection|UserBook[]
      */
@@ -90,7 +105,7 @@ class UserBookList
     {
         if (!$this->userBooks->contains($userBook)) {
             $this->userBooks[] = $userBook;
-            $userBook->addUserBookList($this);
+            $userBook->addUserBookTag($this);
         }
 
         return $this;
@@ -100,7 +115,7 @@ class UserBookList
     {
         if ($this->userBooks->contains($userBook)) {
             $this->userBooks->removeElement($userBook);
-            $userBook->removeUserBookList($this);
+            $userBook->removeUserBookTag($this);
         }
 
         return $this;

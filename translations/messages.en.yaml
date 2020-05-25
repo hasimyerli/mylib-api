@@ -20,6 +20,10 @@ error:
       list:
         already_exists: A list that has such name already exists!
         not_found: No such list was found!
+      tag:
+        already_exists: A tag that has such name already exists!
+        color_invalid: Color code must be in hexadecimal format!
+        not_found: No such tag was found!
   comment:
       not_found: Comment not found!
 success:
@@ -32,6 +36,10 @@ success:
       added: List was created!
       name_updated: List name was updated!
       deleted: List was deleted!
+    tag:
+      added: Tag was added!
+      name_updated: Tag name was updated!
+      deleted: Tag was deleted!
   rate:
     added_rate: You rate for the book!
   comment:
