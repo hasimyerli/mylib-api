@@ -8,7 +8,6 @@ use App\Entity\Rate;
 use App\Entity\User;
 use App\Repository\RateRepository;
 use App\Service\AbstractService;
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 

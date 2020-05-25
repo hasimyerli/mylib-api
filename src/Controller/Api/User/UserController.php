@@ -45,7 +45,6 @@ class UserController extends ApiAbstractController
     }
 
     /**
-    /**
      * @SWG\Response(
      *     response=200,
      *     description="User profile update",

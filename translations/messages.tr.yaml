@@ -17,6 +17,8 @@ error:
     list:
       already_exists: Bu isimde bir liste zaten mevcut!
       not_found: Böyle bir liste bulunamadı!
+  comment:
+    not_found: Comment not found!
 success:
   user:
     info_updated: Bilgileriniz güncellendi!
@@ -28,6 +30,8 @@ success:
       added: Liste oluşturuldu!
       name_updated: Liste ismi güncellendi!
       deleted: Liste silindi!
+  comment:
+    added: Yorum eklendi!
   rate:
     added_rate: Oy Kullandınız!
 validation:
