@@ -27,3 +27,8 @@ user_book_delete:
   path: /user/books/{userBookId}
   controller: App\Controller\Api\User\UserBookController:deleteUserBook
   methods: [DELETE]
+
+user_book_lists_post:
+  path: /user/book/lists
+  controller: App\Controller\Api\User\UserBookListController:saveUserBookList
+  methods: [POST]

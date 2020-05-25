@@ -75,9 +75,9 @@ class User implements UserInterface
     private $comments;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\BookList", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\UserBookList", mappedBy="user")
      */
-    private $bookLists;
+    private $userBookLists;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\BookTag", mappedBy="user")
@@ -99,7 +99,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->comments = new ArrayCollection();
-        $this->bookLists = new ArrayCollection();
+        $this->userBookLists = new ArrayCollection();
         $this->bookTags = new ArrayCollection();
         $this->userBooks = new ArrayCollection();
     }
@@ -244,27 +244,27 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|BookList[]
+     * @return Collection|UserBookList[]
      */
-    public function getBookLists(): Collection
+    public function getUserBookLists(): Collection
     {
-        return $this->bookLists;
+        return $this->userBookLists;
     }
 
-    public function addBookList(BookList $bookList): self
+    public function addBookList(UserBookList $bookList): self
     {
-        if (!$this->bookLists->contains($bookList)) {
-            $this->bookLists[] = $bookList;
+        if (!$this->userBookLists->contains($bookList)) {
+            $this->userBookLists[] = $bookList;
             $bookList->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeBookList(BookList $bookList): self
+    public function removeBookList(UserBookList $bookList): self
     {
-        if ($this->bookLists->contains($bookList)) {
-            $this->bookLists->removeElement($bookList);
+        if ($this->userBookLists->contains($bookList)) {
+            $this->userBookLists->removeElement($bookList);
             // set the owning side to null (unless already changed)
             if ($bookList->getUser() === $this) {
                 $bookList->setUser(null);

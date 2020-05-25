@@ -40,7 +40,33 @@
         .scheme-container {
             margin-top: 10px;
         }
-</style>
+        .swagger-ui .btn-html-contents {
+            margin-right:  166px;
+        }
+        .swagger-ui .btn-json-contents {
+            margin-right:  100px;
+        }
+        .swagger-ui .btn-json-contents, .swagger-ui .btn-html-contents, .swagger-ui .download-contents {
+            position: absolute;
+            bottom: auto;
+            right: 10px;
+            cursor: pointer;
+            background: #49cc90;
+            text-align: center;
+            padding: 7px 14px;
+            border-radius: 2px;
+            font-family: sans-serif;
+            font-weight: 600;
+            color: #fff;
+            border: 0;
+            width: auto !important;
+            top: -35px !important;
+            font-size: 14px;
+        }
+        .swagger-ui .download-contents {
+            background: #41444e;
+        }
+    </style>
 {% endblock stylesheets %}
 
 {% block header %}
@@ -54,14 +80,55 @@
 {% endblock header %}
 
 {% block javascripts %}
-    {{ parent() }}
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script>
         const data = JSON.parse(document.getElementById('swagger-data').innerText);
         const swagger = data.swagger;
         const info = data.spec;
         document.getElementById('api-version').innerHTML = data.spec.info.version;
         document.getElementById('api-title').innerHTML = data.spec.info.title;
+
+        $( document ).ready(function() {
+            var body = $('body');
+            var showJsonElemen= '<div class="btn-json-contents btn-contents-viewer">Json</div>';
+            var showHtmlElemen= '<div class="btn-html-contents btn-contents-viewer">Html</div>';
+            var highlightCode = "";
+            var microlight = "";
+            var htmlContent = "";
+
+            var decodeHTML = function (html) {
+                var txt = document.createElement('textarea');
+                txt.innerHTML = html;
+                return txt.value;
+            };
+
+            body.delegate( '.opblock-control__btn', "click", function() {
+                var self = this;
+                setTimeout(function(){
+                    highlightCode = $(self).parents('.opblock').find('.highlight-code');
+                    microlight = highlightCode.find('.microlight');
+                    htmlContent = microlight.html();
+                    highlightCode.append(showJsonElemen);
+                    highlightCode.append(showHtmlElemen);
+                    $('.btn-html-contents').trigger("click");
+                }, 500);
+            });
+
+            body.delegate( '.btn-html-contents', "click", function() {
+                $('.btn-contents-viewer').css("background","#49cc90");
+                $(this).css("background","#38946a");
+                microlight.html(decodeHTML(htmlContent));
+            });
+
+            body.delegate( '.btn-json-contents', "click", function() {
+                $('.btn-contents-viewer').css("background","#49cc90");
+                $(this).css("background","#38946a");
+                microlight.html(htmlContent);
+            });
+
+        });
     </script>
+    {{ parent() }}
 {% endblock javascripts %}
 
 

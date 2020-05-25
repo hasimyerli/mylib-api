@@ -2,12 +2,23 @@
 
 namespace App\Entity;
 
+use App\Enum\Status;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Mapping\ClassMetadata;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\BookListRepository")
+ * @ORM\Entity
+ * @ORM\Table(
+ *      name="user_book_list",
+ *      uniqueConstraints={@ORM\UniqueConstraint(columns={"user_id", "name"})}
+ * )
+ * @UniqueEntity(
+ *      fields={"user","name"},
+ *      message="Duplicate record."
+ * )
  */
-class BookList
+class UserBookList
 {
     /**
      * @ORM\Id()
@@ -17,7 +28,7 @@ class BookList
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="bookLists")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="userBookLists")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
@@ -30,7 +41,7 @@ class BookList
     /**
      * @ORM\Column(type="integer", options={"default" : 1})
      */
-    private $status;
+    private $status = Status::ACTIVE;
 
     public function getId(): ?int
     {

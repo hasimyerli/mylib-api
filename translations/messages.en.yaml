@@ -17,14 +17,22 @@ error:
       unknown: Unexpected error!
   user_book:
       not_found: No such product in your library!
+      list:
+        already_exists: A list that has such name already exists!
+  comment:
+      not_found: Comment not found!
 success:
   user:
     info_updated: Your information has been updated!
   user_book:
     added_into_library: The book was added into your library!
     deleted_from_library: The book was deleted from your library!
+    list:
+      added: List was created!
   rate:
     added_rate: You rate for the book!
+  comment:
+    added: Comment was created!
 validation:
   rate:
     invalid_range: Rate in invalid range!

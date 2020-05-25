@@ -2,11 +2,13 @@
 
 
 namespace App\Controller\Api\Book;
-use App\Formatter\CommentsFormatter;
+use App\Entity\Comment;
+use App\Form\CommentCreateType;
+use App\Response\ApiResponse\JsonSuccessResponse;
 use App\Service\Book\CommentService;
 use App\Controller\Api\ApiAbstractController;
-use App\Response\ApiResponse\JsonSuccessResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\Security;
 use Swagger\Annotations as SWG;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,18 +20,52 @@ class CommentController extends ApiAbstractController
      *     response=200,
      *     description="return book's comments.",
      * )
-     * @SWG\Tag(name="Book")
+     * @SWG\Tag(name="Comment")
      * @Security(name="Bearer")
      *
      * @param $bookId
      * @param CommentService $commentService
-     * @return JsonResponse
      */
     public function getCommentsByBookId($bookId, CommentService $commentService)
     {
-        $comments = $commentService->getCommentsByBookId($bookId);
-        dd($comments);
+        //TODO:...
+    }
+
+    /**
+     * @SWG\Response(
+     *     response=200,
+     *     description="create book comment",
+     * )
+     * @SWG\Parameter(
+     *     name="Comment body",
+     *     in="body",
+     *     type="string",
+     *     required=true,
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(property="text", type="string"),
+     *     )
+     * )
+     * @SWG\Tag(name="Comment")
+     * @Security(name="Bearer")
+     *
+     * @param $bookId
+     * @param Request $request
+     * @param CommentService $commentService
+     * @return JsonResponse
+     */
+    public function createComment($bookId, Request $request, CommentService $commentService)
+    {
+        $comment = new Comment();
+
+        $this->validateForm(CommentCreateType::class, $comment, $request, $requestParams);
+
+        $parentId = isset($requestParams['parentId']) ?? null;
+
+        $commentService->createComment($this->getUser(), $bookId, $comment, $parentId);
+
         return JsonSuccessResponse::build()
+            ->setMessage($this->getTranslator()->trans('success.comment.added'))
             ->getResponse();
     }
 }
