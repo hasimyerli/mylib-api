@@ -27,6 +27,7 @@ success:
     list:
       added: Liste oluşturuldu!
       name_updated: Liste ismi güncellendi!
+      deleted: Liste silindi!
   rate:
     added_rate: Oy Kullandınız!
 validation:

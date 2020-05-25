@@ -29,6 +29,7 @@ success:
     list:
       added: List was created!
       name_updated: List name was updated!
+      deleted: List was deleted!
   rate:
     added_rate: You rate for the book!
 validation:

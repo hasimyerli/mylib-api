@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Enum\Status;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -37,6 +39,16 @@ class UserBookList
      */
     private $name;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\UserBook", mappedBy="userBookLists")
+     */
+    private $userBooks;
+
+    public function __construct()
+    {
+        $this->userBooks = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -62,6 +74,34 @@ class UserBookList
     public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserBook[]
+     */
+    public function getUserBooks(): Collection
+    {
+        return $this->userBooks;
+    }
+
+    public function addUserBook(UserBook $userBook): self
+    {
+        if (!$this->userBooks->contains($userBook)) {
+            $this->userBooks[] = $userBook;
+            $userBook->addUserBookList($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserBook(UserBook $userBook): self
+    {
+        if ($this->userBooks->contains($userBook)) {
+            $this->userBooks->removeElement($userBook);
+            $userBook->removeUserBookList($this);
+        }
 
         return $this;
     }
