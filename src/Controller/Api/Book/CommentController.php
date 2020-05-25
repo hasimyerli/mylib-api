@@ -3,7 +3,8 @@
 
 namespace App\Controller\Api\Book;
 use App\Entity\Comment;
-use App\Form\CommentCreateType;
+use App\Form\CommentType\CommentCreateType;
+use App\Form\CommentType\CommentUpdateType;
 use App\Response\ApiResponse\JsonSuccessResponse;
 use App\Service\Book\CommentService;
 use App\Controller\Api\ApiAbstractController;
@@ -66,6 +67,41 @@ class CommentController extends ApiAbstractController
 
         return JsonSuccessResponse::build()
             ->setMessage($this->getTranslator()->trans('success.comment.added'))
+            ->getResponse();
+    }
+
+    /**
+     * @SWG\Response(
+     *     response=200,
+     *     description="update book comment",
+     * )
+     * @SWG\Parameter(
+     *     name="Comment body",
+     *     in="body",
+     *     type="string",
+     *     required=true,
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(property="text", type="string"),
+     *     )
+     * )
+     * @SWG\Tag(name="Book / Comment")
+     * @Security(name="Bearer")
+     *
+     * @param $bookId
+     * @param $commentId
+     * @param Request $request
+     * @param CommentService $commentService
+     * @return JsonResponse
+     */
+    public function updateComment($bookId, $commentId, Request $request, CommentService $commentService)
+    {
+        $user = $this->getUser();
+        $comment = $commentService->getCommentByUser($user, $bookId, $commentId);
+        $this->validateForm(CommentUpdateType::class, $comment, $request);
+        $commentService->updateComment($comment);
+        return JsonSuccessResponse::build()
+            ->setMessage($this->getTranslator()->trans('success.comment.updated'))
             ->getResponse();
     }
 

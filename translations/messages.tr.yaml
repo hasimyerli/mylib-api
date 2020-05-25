@@ -42,6 +42,7 @@ success:
   comment:
     added: Yorum eklendi!
     deleted: Yorum silindi!
+    updated: Yorum güncellendi!
   rate:
     added_rate: Oy Kullandınız!
 validation:

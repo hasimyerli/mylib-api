@@ -46,6 +46,7 @@ success:
   comment:
     added: Comment was created!
     deleted: Comment was deleted!
+    updated: Comment was updated!
 validation:
   rate:
     invalid_range: Rate in invalid range!
