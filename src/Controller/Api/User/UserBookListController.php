@@ -6,7 +6,6 @@ use App\Controller\Api\ApiAbstractController;
 use App\Entity\UserBook;
 use App\Entity\UserBookList;
 use App\Form\UserBookListType\UserBookListType;
-use App\Form\UserBookListType\UpdateUserBookListType;
 use App\Form\UserBookType\UserBookType;
 use App\Formatter\UserBookFormatter;
 use App\Formatter\UserBookListFormatter;
@@ -49,11 +48,11 @@ class UserBookListController extends ApiAbstractController
     }
 
     /**
-     * @SWG\Response(response=200, description="Creates user book list")
+     * @SWG\Response(response=200, description="Updates user book list")
      * @SWG\Parameter(
      *     name="userBookListId",
      *     in="path",
-     *     type="string",
+     *     type="number",
      *     required=true,
      * )
      * @SWG\Parameter(name="body", in="body", type="string", required=true,
@@ -81,6 +80,30 @@ class UserBookListController extends ApiAbstractController
 
         return JsonSuccessResponse::build()
             ->setMessage($this->getTranslator()->trans('success.user_book.list.name_updated'))
+            ->getResponse();
+    }
+
+    /**
+     * @SWG\Response(response=200, description="Deletes user book list")
+     * @SWG\Parameter(
+     *     name="userBookListId",
+     *     in="path",
+     *     type="number",
+     *     required=true,
+     * )
+     * @SWG\Tag(name="User/Book/Lists")
+     *
+     * @param $userBookListId
+     * @param Request $request
+     * @param UserBookListService $userBookListService
+     * @return JsonResponse
+     */
+    public function deleteUserBookList($userBookListId, Request $request, UserBookListService $userBookListService)
+    {
+        $userBookListService->deleteUserBookList($this->getUser(), $userBookListId);
+
+        return JsonSuccessResponse::build()
+            ->setMessage($this->getTranslator()->trans('success.user_book.list.deleted'))
             ->getResponse();
     }
 

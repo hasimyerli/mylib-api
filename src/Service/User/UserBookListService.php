@@ -65,6 +65,12 @@ class UserBookListService extends AbstractService
         return $userBookList;
     }
 
+    public function deleteUserBookList(User $user, int $userBookListId)
+    {
+        $userBookList = $this->getUserBookList($user, $userBookListId);
+        $this->delete($userBookList);
+    }
+
     protected function getRepository(): UserBookListRepository
     {
         return parent::getRepository();

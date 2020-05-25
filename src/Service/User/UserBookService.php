@@ -4,6 +4,7 @@ namespace App\Service\User;
 
 use App\Entity\User;
 use App\Entity\UserBook;
+use App\Entity\UserBookList;
 use App\Enum\Status;
 use App\Repository\UserBookRepository;
 use App\Response\ApiResponse\JsonFailureResponse;
@@ -18,26 +19,33 @@ class UserBookService extends AbstractService
 {
     private $bookService;
     private $translator;
+    private $userBookListService;
 
-    public function __construct(EntityManagerInterface $em, BookService $bookService, TranslatorInterface $translator)
+    public function __construct(EntityManagerInterface $em, BookService $bookService, UserBookListService $userBookListService, TranslatorInterface $translator)
     {
         parent::__construct(UserBook::class, $em);
         $this->bookService = $bookService;
+        $this->userBookListService = $userBookListService;
         $this->translator = $translator;
     }
 
-    public function saveUserBook(User $user, UserBook $userBook, $bookId)
+    public function saveUserBook(User $user, UserBook $userBook, $bookId, $userBookListIds, $tagIds)
     {
         $book = $this->bookService->getBook($bookId);
-        $userBook->setUser($user);
         $userBook->setBook($book);
-        $this->save($userBook);
-        return $userBook;
+        return $this->updateUserBook($user, $userBook,$userBookListIds, $tagIds);
     }
 
-    public function updateUserBook(User $user, UserBook $userBook)
+    public function updateUserBook(User $user, UserBook $userBook, $userBookListIds, $tagIds)
     {
         $userBook->setUser($user);
+
+        foreach ($userBookListIds as $userBookListId)
+        {
+            $userBookList = $this->userBookListService->getUserBookList($user, $userBookListId);
+            $userBook->addUserBookList($userBookList);
+        }
+
         $this->save($userBook);
         return $userBook;
     }
