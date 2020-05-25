@@ -68,4 +68,25 @@ class CommentController extends ApiAbstractController
             ->setMessage($this->getTranslator()->trans('success.comment.added'))
             ->getResponse();
     }
+
+    /**
+     * @SWG\Response(
+     *     response=200,
+     *     description="delete book comment",
+     * )
+     * @SWG\Tag(name="Comment")
+     * @Security(name="Bearer")
+     *
+     * @param $bookId
+     * @param $commentId
+     * @param CommentService $commentService
+     * @return JsonResponse
+     */
+    public function deleteComment($bookId, $commentId, CommentService $commentService)
+    {
+        $commentService->deleteComment($this->getUser(), $bookId, $commentId);
+        return JsonSuccessResponse::build()
+            ->setMessage($this->getTranslator()->trans('success.comment.deleted'))
+            ->getResponse();
+    }
 }

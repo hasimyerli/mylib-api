@@ -22,6 +22,7 @@ error:
         not_found: No such list was found!
   comment:
       not_found: Comment not found!
+      already_deleted  : Comment has already been deleted!
 success:
   user:
     info_updated: Your information has been updated!
@@ -36,6 +37,7 @@ success:
     added_rate: You rate for the book!
   comment:
     added: Comment was created!
+    deleted: Comment was deleted!
 validation:
   rate:
     invalid_range: Rate in invalid range!

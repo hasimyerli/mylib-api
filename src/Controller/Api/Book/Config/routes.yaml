@@ -12,3 +12,8 @@ book_comments_post:
   path: /books/{bookId}/comments
   controller: App\Controller\Api\Book\CommentController:createComment
   methods: [POST]
+
+book_comments_delete:
+  path: /books/{bookId}/comments/{commentId}
+  controller: App\Controller\Api\Book\CommentController:deleteComment
+  methods: [DELETE]
