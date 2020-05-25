@@ -17,11 +17,12 @@ class UserBookType extends BaseType
     {
         $builder
             ->add(
-                'listIds',
+                'bookListIds',
                 CollectionType::class,
                 [
                     'allow_add' => true,
                     'entry_type' => NumberType::class,
+                    'mapped' => false,
                     'prototype' => true,
                 ]
             )
@@ -31,6 +32,7 @@ class UserBookType extends BaseType
                 [
                     'allow_add' => true,
                     'entry_type' => NumberType::class,
+                    'mapped' => false,
                     'prototype' => true,
                 ]
             )

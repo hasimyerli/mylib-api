@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Enum\Status;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Mapping\ClassMetadata;
@@ -14,8 +16,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
  *      uniqueConstraints={@ORM\UniqueConstraint(columns={"user_id", "name"})}
  * )
  * @UniqueEntity(
- *      fields={"user","name"},
- *      message="Duplicate record."
+ *      fields={"user","name"}
  * )
  */
 class UserBookList
@@ -39,9 +40,14 @@ class UserBookList
     private $name;
 
     /**
-     * @ORM\Column(type="integer", options={"default" : 1})
+     * @ORM\ManyToMany(targetEntity="App\Entity\UserBook", mappedBy="userBookLists")
      */
-    private $status = Status::ACTIVE;
+    private $userBooks;
+
+    public function __construct()
+    {
+        $this->userBooks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -72,14 +78,30 @@ class UserBookList
         return $this;
     }
 
-    public function getStatus(): ?int
+    /**
+     * @return Collection|UserBook[]
+     */
+    public function getUserBooks(): Collection
     {
-        return $this->status;
+        return $this->userBooks;
     }
 
-    public function setStatus(int $status): self
+    public function addUserBook(UserBook $userBook): self
     {
-        $this->status = $status;
+        if (!$this->userBooks->contains($userBook)) {
+            $this->userBooks[] = $userBook;
+            $userBook->addUserBookList($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserBook(UserBook $userBook): self
+    {
+        if ($this->userBooks->contains($userBook)) {
+            $this->userBooks->removeElement($userBook);
+            $userBook->removeUserBookList($this);
+        }
 
         return $this;
     }

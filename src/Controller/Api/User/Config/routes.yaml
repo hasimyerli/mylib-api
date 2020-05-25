@@ -32,3 +32,13 @@ user_book_lists_post:
   path: /user/book/lists
   controller: App\Controller\Api\User\UserBookListController:saveUserBookList
   methods: [POST]
+
+user_book_lists_put:
+  path: /user/book/lists/{userBookListId}
+  controller: App\Controller\Api\User\UserBookListController:updateUserBookList
+  methods: [PUT]
+
+user_book_lists_delete:
+  path: /user/book/lists/{userBookListId}
+  controller: App\Controller\Api\User\UserBookListController:deleteUserBookList
+  methods: [DELETE]

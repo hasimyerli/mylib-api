@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Enum\Status;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use phpDocumentor\Reflection\Types\Collection;
 
@@ -51,14 +52,14 @@ class UserBook
     private $status = Status::ACTIVE;
 
     /**
-     * @ORM\Column(type="json", nullable=false)
-*/
-    private $listIds = [];
-
-    /**
-     * @ORM\Column(type="json", nullable=false)
+     * @ORM\ManyToMany(targetEntity="App\Entity\UserBookList", inversedBy="userBooks")
      */
-    private $tagIds = [];
+    private $userBookLists;
+
+    public function __construct()
+    {
+        $this->userBookLists = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -137,24 +138,30 @@ class UserBook
         return $this;
     }
 
-    public function getListIds(): array
+    /**
+     * @return \Doctrine\Common\Collections\Collection|UserBookList[]
+     */
+    public function getUserBookLists(): \Doctrine\Common\Collections\Collection
     {
-        return $this->listIds;
+        return $this->userBookLists;
     }
 
-    public function setListIds(array $listIds): void
+    public function addUserBookList(UserBookList $userBookList): self
     {
-        $this->listIds = $listIds;
+        if (!$this->userBookLists->contains($userBookList)) {
+            $this->userBookLists[] = $userBookList;
+        }
+
+        return $this;
     }
 
-    public function getTagIds(): array
+    public function removeUserBookList(UserBookList $userBookList): self
     {
-        return $this->tagIds;
-    }
+        if ($this->userBookLists->contains($userBookList)) {
+            $this->userBookLists->removeElement($userBookList);
+        }
 
-    public function setTagIds(array $tagIds): void
-    {
-        $this->tagIds = $tagIds;
+        return $this;
     }
 
 }

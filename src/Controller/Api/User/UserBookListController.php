@@ -5,7 +5,7 @@ namespace App\Controller\Api\User;
 use App\Controller\Api\ApiAbstractController;
 use App\Entity\UserBook;
 use App\Entity\UserBookList;
-use App\Form\UserBookListType;
+use App\Form\UserBookListType\UserBookListType;
 use App\Form\UserBookType\UserBookType;
 use App\Formatter\UserBookFormatter;
 use App\Formatter\UserBookListFormatter;
@@ -38,9 +38,7 @@ class UserBookListController extends ApiAbstractController
     public function saveUserBookList(Request $request, UserBookListService $userBookListService)
     {
         $userBookList = new UserBookList();
-
         $this->validateForm(UserBookListType::class, $userBookList, $request);
-
         $userBookList = $userBookListService->saveUserBookList($this->getUser(), $userBookList);
 
         return JsonSuccessResponse::build()
