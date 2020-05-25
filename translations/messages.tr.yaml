@@ -22,7 +22,8 @@ error:
       color_invalid: Renk kodu hexadecimal formatta olmalı!
       not_found: Böyle bir etiket bulunamadı!
   comment:
-    not_found: Comment not found!
+    not_found: Yorum bulunamadı!
+    already_deleted  : Yorum zaten silindi!
 success:
   user:
     info_updated: Bilgileriniz güncellendi!
@@ -40,6 +41,7 @@ success:
       deleted: Etiket silindi!
   comment:
     added: Yorum eklendi!
+    deleted: Yorum silindi!
   rate:
     added_rate: Oy Kullandınız!
 validation:
