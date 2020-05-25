@@ -16,6 +16,7 @@ error:
     not_found: Kitaplığınızda böyle bir kitap bulunamadı!
     list:
       already_exists: Bu isimde bir liste zaten mevcut!
+      not_found: Böyle bir liste bulunamadı!
 success:
   user:
     info_updated: Bilgileriniz güncellendi!
@@ -25,6 +26,7 @@ success:
     deleted_from_library: Kitap kütüphanenizden silindi!
     list:
       added: Liste oluşturuldu!
+      name_updated: Liste ismi güncellendi!
   rate:
     added_rate: Oy Kullandınız!
 validation:

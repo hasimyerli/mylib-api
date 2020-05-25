@@ -14,8 +14,7 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
  *      uniqueConstraints={@ORM\UniqueConstraint(columns={"user_id", "name"})}
  * )
  * @UniqueEntity(
- *      fields={"user","name"},
- *      message="Duplicate record."
+ *      fields={"user","name"}
  * )
  */
 class UserBookList
@@ -37,11 +36,6 @@ class UserBookList
      * @ORM\Column(type="string", length=255)
      */
     private $name;
-
-    /**
-     * @ORM\Column(type="integer", options={"default" : 1})
-     */
-    private $status = Status::ACTIVE;
 
     public function getId(): ?int
     {
@@ -68,18 +62,6 @@ class UserBookList
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getStatus(): ?int
-    {
-        return $this->status;
-    }
-
-    public function setStatus(int $status): self
-    {
-        $this->status = $status;
 
         return $this;
     }

@@ -1,9 +1,9 @@
 <?php
 
 
-namespace App\Form;
+namespace App\Form\UserBookListType;
 
-use App\Entity\User;
+use App\Form\BaseType;
 use App\Entity\UserBookList;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;

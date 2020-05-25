@@ -26,7 +26,7 @@ class UserBookService extends AbstractService
         $this->translator = $translator;
     }
 
-    public function saveUserBook(User $user, UserBook $userBook, $bookId, $listIds, $tagIds)
+    public function saveUserBook(User $user, UserBook $userBook, $bookId)
     {
         $book = $this->bookService->getBook($bookId);
         $userBook->setUser($user);
@@ -35,7 +35,7 @@ class UserBookService extends AbstractService
         return $userBook;
     }
 
-    public function updateUserBook(User $user, UserBook $userBook, $listIds, $tagIds)
+    public function updateUserBook(User $user, UserBook $userBook)
     {
         $userBook->setUser($user);
         $this->save($userBook);
