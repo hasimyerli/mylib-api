@@ -40,28 +40,6 @@ class CommentService extends AbstractService
     }
 
     /**
-     * @param $user
-     * @param $bookId
-     * @param Comment $comment
-     * @param null $parentId
-     */
-    public function createComment($user, $bookId, Comment $comment, $parentId = null)
-    {
-        $book = $this->bookService->getBook($bookId);
-        $parentComment = $this->getRepository()->findOneBy([
-            'id' => $parentId,
-            'book' => $book
-        ]);
-        $comment->setBook($book);
-        $comment->setUser($user);
-        $comment->setParent($parentComment);
-        $comment->setStatus(Status::ACTIVE);
-        $comment->setApprovalStatus(1);
-
-        $this->save($comment);
-    }
-
-    /**
      * @param User $user
      * @param $bookId
      * @param $commentId
@@ -85,6 +63,36 @@ class CommentService extends AbstractService
         }
 
         return $comment;
+    }
+
+    /**
+     * @param $user
+     * @param $bookId
+     * @param Comment $comment
+     * @param null $parentId
+     */
+    public function createComment($user, $bookId, Comment $comment, $parentId = null)
+    {
+        $book = $this->bookService->getBook($bookId);
+        $parentComment = $this->getRepository()->findOneBy([
+            'id' => $parentId,
+            'book' => $book
+        ]);
+        $comment->setBook($book);
+        $comment->setUser($user);
+        $comment->setParent($parentComment);
+        $comment->setStatus(Status::ACTIVE);
+        $comment->setApprovalStatus(1);
+
+        $this->save($comment);
+    }
+
+    /**
+     * @param Comment $comment
+     */
+    public function updateComment(Comment $comment)
+    {
+        $this->save($comment);
     }
 
     /**
