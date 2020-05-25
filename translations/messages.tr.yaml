@@ -17,6 +17,10 @@ error:
     list:
       already_exists: Bu isimde bir liste zaten mevcut!
       not_found: Böyle bir liste bulunamadı!
+    tag:
+      already_exists: Bu isimde bir etiket zaten mevcut!
+      color_invalid: Renk kodu hexadecimal formatta olmalı!
+      not_found: Böyle bir etiket bulunamadı!
   comment:
     not_found: Comment not found!
 success:
@@ -30,6 +34,10 @@ success:
       added: Liste oluşturuldu!
       name_updated: Liste ismi güncellendi!
       deleted: Liste silindi!
+    tag:
+      added: Etiket eklendi!
+      name_updated: Etiket ismi güncellendi!
+      deleted: Etiket silindi!
   comment:
     added: Yorum eklendi!
   rate:

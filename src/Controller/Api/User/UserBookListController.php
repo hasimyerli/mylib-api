@@ -47,4 +47,65 @@ class UserBookListController extends ApiAbstractController
             ->getResponse();
     }
 
+    /**
+     * @SWG\Response(response=200, description="Updates user book list")
+     * @SWG\Parameter(
+     *     name="userBookListId",
+     *     in="path",
+     *     type="number",
+     *     required=true,
+     * )
+     * @SWG\Parameter(name="body", in="body", type="string", required=true,
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(property="name", type="string"),
+     *     )
+     * )
+     * @SWG\Tag(name="User/Book/Lists")
+     *
+     * @param $userBookListId
+     * @param Request $request
+     * @param UserBookListService $userBookListService
+     * @return JsonResponse
+     */
+    public function updateUserBookList($userBookListId, Request $request, UserBookListService $userBookListService)
+    {
+        $newUserBookList = new UserBookList();
+        $this->validateForm(UserBookListType::class, $newUserBookList, $request);
+
+        $userBookList = $userBookListService->getUserBookList($this->getUser(), $userBookListId);
+
+        $userBookList->setName($newUserBookList->getName());
+        $userBookList = $userBookListService->updateUserBookList($this->getUser(), $userBookList);
+
+        return JsonSuccessResponse::build()
+            ->setMessage($this->getTranslator()->trans('success.user_book.list.name_updated'))
+            ->setData(UserBookListFormatter::format($userBookList))
+            ->getResponse();
+    }
+
+    /**
+     * @SWG\Response(response=200, description="Deletes user book list")
+     * @SWG\Parameter(
+     *     name="userBookListId",
+     *     in="path",
+     *     type="number",
+     *     required=true,
+     * )
+     * @SWG\Tag(name="User/Book/Lists")
+     *
+     * @param $userBookListId
+     * @param Request $request
+     * @param UserBookListService $userBookListService
+     * @return JsonResponse
+     */
+    public function deleteUserBookList($userBookListId, Request $request, UserBookListService $userBookListService)
+    {
+        $userBookListService->deleteUserBookList($this->getUser(), $userBookListId);
+
+        return JsonSuccessResponse::build()
+            ->setMessage($this->getTranslator()->trans('success.user_book.list.deleted'))
+            ->getResponse();
+    }
+
 }

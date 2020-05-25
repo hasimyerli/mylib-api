@@ -27,7 +27,7 @@ class UserBookType extends BaseType
                 ]
             )
             ->add(
-                'tagIds',
+                'bookTagIds',
                 CollectionType::class,
                 [
                     'allow_add' => true,

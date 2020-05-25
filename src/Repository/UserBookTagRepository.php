@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\BookTag;
+use App\Entity\UserBookTag;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method BookTag|null find($id, $lockMode = null, $lockVersion = null)
- * @method BookTag|null findOneBy(array $criteria, array $orderBy = null)
- * @method BookTag[]    findAll()
- * @method BookTag[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method UserBookTag|null find($id, $lockMode = null, $lockVersion = null)
+ * @method UserBookTag|null findOneBy(array $criteria, array $orderBy = null)
+ * @method UserBookTag[]    findAll()
+ * @method UserBookTag[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class BookTagRepository extends ServiceEntityRepository
+class UserBookTagRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, BookTag::class);
+        parent::__construct($registry, UserBookTag::class);
     }
 
     // /**
-    //  * @return BookTag[] Returns an array of BookTag objects
+    //  * @return UserBookTag[] Returns an array of UserBookTag objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class BookTagRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?BookTag
+    public function findOneBySomeField($value): ?UserBookTag
     {
         return $this->createQueryBuilder('b')
             ->andWhere('b.exampleField = :val')

@@ -80,11 +80,6 @@ class User implements UserInterface
     private $userBookLists;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\BookTag", mappedBy="user")
-     */
-    private $bookTags;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\UserBook", mappedBy="user")
      */
     private $userBooks;
@@ -274,25 +269,7 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|BookTag[]
-     */
-    public function getBookTags(): Collection
-    {
-        return $this->bookTags;
-    }
-
-    public function addBookTag(BookTag $bookTag): self
-    {
-        if (!$this->bookTags->contains($bookTag)) {
-            $this->bookTags[] = $bookTag;
-            $bookTag->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBookTag(BookTag $bookTag): self
+    public function removeBookTag(UserBookTag $bookTag): self
     {
         if ($this->bookTags->contains($bookTag)) {
             $this->bookTags->removeElement($bookTag);

@@ -20,30 +20,46 @@ class UserBookService extends AbstractService
     private $bookService;
     private $translator;
     private $userBookListService;
+    private $userBookTagService;
 
-    public function __construct(EntityManagerInterface $em, BookService $bookService, UserBookListService $userBookListService, TranslatorInterface $translator)
+    public function __construct(EntityManagerInterface $em,
+                                BookService $bookService,
+                                UserBookListService $userBookListService,
+                                UserBookTagService $userBookTagService,
+                                TranslatorInterface $translator)
     {
         parent::__construct(UserBook::class, $em);
         $this->bookService = $bookService;
         $this->userBookListService = $userBookListService;
+        $this->userBookTagService = $userBookTagService;
         $this->translator = $translator;
     }
 
-    public function saveUserBook(User $user, UserBook $userBook, $bookId, $userBookListIds, $tagIds)
+    public function saveUserBook(User $user, UserBook $userBook, $bookId, $userBookListIds, $userBookTagIds)
     {
         $book = $this->bookService->getBook($bookId);
         $userBook->setBook($book);
-        return $this->updateUserBook($user, $userBook,$userBookListIds, $tagIds);
+        return $this->updateUserBook($user, $userBook,$userBookListIds, $userBookTagIds);
     }
 
-    public function updateUserBook(User $user, UserBook $userBook, $userBookListIds, $tagIds)
+    public function updateUserBook(User $user, UserBook $userBook, $userBookListIds, $userBookTagIds)
     {
         $userBook->setUser($user);
+
+        $userBook->removeAllUserBookLists();
 
         foreach ($userBookListIds as $userBookListId)
         {
             $userBookList = $this->userBookListService->getUserBookList($user, $userBookListId);
             $userBook->addUserBookList($userBookList);
+        }
+
+        $userBook->removeAllUserBookTags();
+
+        foreach ($userBookTagIds as $userBookTagId)
+        {
+            $userBookTag = $this->userBookTagService->getUserBookTag($user, $userBookTagId);
+            $userBook->addUserBookTag($userBookTag);
         }
 
         $this->save($userBook);

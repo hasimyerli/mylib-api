@@ -12,10 +12,16 @@ class UserBookFormatter
     public static function format(UserBook $userBook): array
     {
         $bookLists = [];
+        $bookTags = [];
 
         foreach ($userBook->getUserBookLists() as $userBookList)
         {
             $bookLists[] = UserBookListFormatter::format($userBookList);
+        }
+
+        foreach ($userBook->getUserBookTags() as $userBookTag)
+        {
+            $bookTags[] = UserBookTagFormatter::format($userBookTag);
         }
 
         return [
@@ -24,6 +30,7 @@ class UserBookFormatter
             'bookActions' => $userBook->getBookActionStatus(),
             'editionNumber' => $userBook->getEditionNumber(),
             'bookLists' => $bookLists,
+            'bookTags' => $bookTags,
             'note' => $userBook->getNote()
         ];
     }

@@ -56,9 +56,15 @@ class UserBook
      */
     private $userBookLists;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\UserBookTag", inversedBy="userBooks")
+     */
+    private $userBookTags;
+
     public function __construct()
     {
         $this->userBookLists = new ArrayCollection();
+        $this->userBookTags = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -161,6 +167,50 @@ class UserBook
             $this->userBookLists->removeElement($userBookList);
         }
 
+        return $this;
+    }
+
+    public function removeAllUserBookLists(): self
+    {
+        foreach ($this->userBookLists as $userBookList)
+        {
+            $this->userBookLists->removeElement($userBookList);
+        }
+        return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection|UserBookTag[]
+     */
+    public function getUserBookTags(): \Doctrine\Common\Collections\Collection
+    {
+        return $this->userBookTags;
+    }
+
+    public function addUserBookTag(UserBookTag $userBookTag): self
+    {
+        if (!$this->userBookTags->contains($userBookTag)) {
+            $this->userBookTags[] = $userBookTag;
+        }
+
+        return $this;
+    }
+
+    public function removeUserBookTag(UserBookTag $userBookTag): self
+    {
+        if ($this->userBookTags->contains($userBookTag)) {
+            $this->userBookTags->removeElement($userBookTag);
+        }
+
+        return $this;
+    }
+
+    public function removeAllUserBookTags(): self
+    {
+        foreach ($this->userBookTags as $userBookTag)
+        {
+            $this->userBookTags->removeElement($userBookTag);
+        }
         return $this;
     }
 
