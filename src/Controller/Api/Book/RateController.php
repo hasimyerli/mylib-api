@@ -29,7 +29,7 @@ class RateController extends ApiAbstractController
      *         @SWG\Property(property="value", type="integer"),
      *     )
      * )
-     * @SWG\Tag(name="Book")
+     * @SWG\Tag(name="Book / Rate")
      * @Security(name="Bearer")
      *
      * @param $bookId

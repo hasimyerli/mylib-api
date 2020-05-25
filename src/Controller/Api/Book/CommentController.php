@@ -20,7 +20,7 @@ class CommentController extends ApiAbstractController
      *     response=200,
      *     description="return book's comments.",
      * )
-     * @SWG\Tag(name="Comment")
+     * @SWG\Tag(name="Book / Comment")
      * @Security(name="Bearer")
      *
      * @param $bookId
@@ -46,7 +46,7 @@ class CommentController extends ApiAbstractController
      *         @SWG\Property(property="text", type="string"),
      *     )
      * )
-     * @SWG\Tag(name="Comment")
+     * @SWG\Tag(name="Book / Comment")
      * @Security(name="Bearer")
      *
      * @param $bookId
@@ -74,7 +74,7 @@ class CommentController extends ApiAbstractController
      *     response=200,
      *     description="delete book comment",
      * )
-     * @SWG\Tag(name="Comment")
+     * @SWG\Tag(name="Book / Comment")
      * @Security(name="Bearer")
      *
      * @param $bookId
