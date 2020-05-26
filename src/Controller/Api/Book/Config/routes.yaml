@@ -4,8 +4,8 @@ book_rate_post:
   methods: [POST]
 
 book_comments_get:
-  path: /books/{bookId}/comments
-  controller: App\Controller\Api\Book\CommentController:getCommentsByBookId
+  path: /books/{bookId}/comments/{parentId}
+  controller: App\Controller\Api\Book\CommentController:getComments
   methods: [GET]
 
 book_comments_post:
