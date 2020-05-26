@@ -25,11 +25,16 @@ class CommentController extends ApiAbstractController
      * @Security(name="Bearer")
      *
      * @param $bookId
+     * @param $parentId
      * @param CommentService $commentService
+     * @return JsonResponse
      */
-    public function getCommentsByBookId($bookId, CommentService $commentService)
+    public function getComments($bookId, $parentId, CommentService $commentService)
     {
-        //TODO:...
+        $comments = $commentService->getComments($bookId, $parentId);
+        return JsonSuccessResponse::build()
+            ->setData($comments)
+            ->getResponse();
     }
 
     /**
@@ -44,6 +49,7 @@ class CommentController extends ApiAbstractController
      *     required=true,
      *     @SWG\Schema(
      *         type="object",
+     *         @SWG\Property(property="parentId", type="integer"),
      *         @SWG\Property(property="text", type="string"),
      *     )
      * )
@@ -61,9 +67,7 @@ class CommentController extends ApiAbstractController
 
         $this->validateForm(CommentCreateType::class, $comment, $request, $requestParams);
 
-        $parentId = isset($requestParams['parentId']) ?? null;
-
-        $commentService->createComment($this->getUser(), $bookId, $comment, $parentId);
+        $commentService->createComment($this->getUser(), $bookId, $comment, $requestParams['parentId']);
 
         return JsonSuccessResponse::build()
             ->setMessage($this->getTranslator()->trans('success.comment.added'))

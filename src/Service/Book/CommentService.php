@@ -8,6 +8,7 @@ use App\Entity\Book;
 use App\Entity\Comment;
 use App\Entity\User;
 use App\Enum\Status;
+use App\Formatter\CommentTreeFormatter;
 use App\Repository\CommentRepository;
 use App\Response\ApiResponse\JsonFailureResponse;
 use App\Service\AbstractService;
@@ -31,12 +32,40 @@ class CommentService extends AbstractService
 
     /**
      * @param $bookId
-     * @return Comment[]|Collection
+     * @param $parentId
+     * @return array
      */
-    public function getCommentsByBookId($bookId)
+    public function getComments($bookId, $parentId)
     {
-        return $this->bookService->getBook($bookId)->getComments();
-        //TODO::...
+        return $this->getCommentTree($bookId, $parentId);
+    }
+
+    /**
+     * TODO:: Tek sorguya indirilmek üzere refactor edilecek.
+     *
+     * @param $bookId
+     * @param $parentId
+     * @return array
+     */
+    private function getCommentTree($bookId, $parentId)
+    {
+        $parentCommentIds = [];
+        $lastParentChildComments = [];
+
+        $lastParentComments = $this->getRepository()->getLastParentComments($bookId, $parentId);
+
+        /**
+         * @var Comment $parentComment
+         */
+        foreach ($lastParentComments as $parentComment) {
+            $parentCommentIds[] = $parentComment->getId();
+        }
+
+        if ($parentCommentIds) {
+            $lastParentChildComments = $this->getRepository()->getLastParentChildComments($bookId, $parentCommentIds);
+        }
+
+        return CommentTreeFormatter::format($lastParentComments, $lastParentChildComments);
     }
 
     /**

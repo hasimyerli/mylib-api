@@ -30,6 +30,9 @@ class CommentCreateType extends BaseType
                 IntegerType::class,
                 [
                     'mapped' => false,
+                    'constraints' => [
+                        new NotBlank()
+                    ]
                 ]
             );
     }
