@@ -14,6 +14,8 @@ error:
     unknown: Bir hata oluştu!
   user_book:
     not_found: Kitaplığınızda böyle bir kitap bulunamadı!
+    not_found_from_library: Bazı kitaplar kitaplığınızda olmayabilir. Lütfen kontrol edin!
+    internal_not_found_from_library: bookId:%s listede bulunamadı!
     list:
       already_exists: Bu isimde bir liste zaten mevcut!
       not_found: Böyle bir liste bulunamadı!
@@ -31,6 +33,7 @@ success:
     added_into_library: Kitap kütüphanenize eklendi!
     info_updated: Kitap bilgileriniz güncellendi!
     deleted_from_library: Kitap kütüphanenizden silindi!
+    added_into_tag_list: Kitaplar tag listesine eklendi!
     list:
       added: Liste oluşturuldu!
       name_updated: Liste ismi güncellendi!

@@ -9,6 +9,7 @@ use App\Formatter\UserBookFormatter;
 use App\Response\ApiResponse\JsonSuccessResponse;
 use App\Form\UserBookType\SaveUserBookType;
 use App\Service\User\UserBookService;
+use App\Service\User\UserBookTagService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\Security;
@@ -144,6 +145,37 @@ class UserBookController extends ApiAbstractController
 
         return JsonSuccessResponse::build()
             ->setMessage($this->getTranslator()->trans('success.user_book.deleted_from_library'))
+            ->getResponse();
+    }
+
+    /**
+     * @SWG\Response(
+     *     response=200,
+     *     description="add books to user book tag"
+     * )
+     * @SWG\Parameter(
+     *     name="body",
+     *     in="body",
+     *     type="string",
+     *     required=true,
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(property="userBookIds", type="array", @SWG\Items(type="number")),
+     *     )
+     * )
+     * @SWG\Tag(name="User/Books")
+     *
+     * @param $userBookTagId
+     * @param Request $request
+     * @param UserBookService $userBookService
+     * @return JsonResponse
+     */
+    public function createBooksToUserBookTag($userBookTagId, Request $request, UserBookService $userBookService)
+    {
+        $requestParams = json_decode($request->getContent(), true);
+        $userBookService->createBooksToUserBookTag($this->getUser(), $userBookTagId, $requestParams['userBookIds']);
+        return JsonSuccessResponse::build()
+            ->setMessage($this->getTranslator()->trans('success.user_book.added_into_tag_list'))
             ->getResponse();
     }
 }

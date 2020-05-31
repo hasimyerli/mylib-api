@@ -45,10 +45,10 @@ class CommentRepository extends ServiceEntityRepository
             ->getSingleScalarResult();
     }
 
-    public function getComments($bookId, $page = 1, $itemsPerPage = 20)
+    public function getComments($bookId, $page = 1, $limit = 20)
     {
         $page = ($page > 1) ? $page: 1;
-        $itemsPerPage = $itemsPerPage < 100 ? $itemsPerPage : 20;
+        $limit = $limit < 100 ? $limit : 20;
 
         $qb = $this->createQueryBuilder('c');
         $qb->where('c.parent is null');
@@ -59,8 +59,8 @@ class CommentRepository extends ServiceEntityRepository
         $qb->andWhere('c.status = :status');
         $qb->setParameter('status', Status::ACTIVE);
 
-        $qb->setMaxResults($itemsPerPage);
-        $qb->setFirstResult(($page-1) * $itemsPerPage);
+        $qb->setMaxResults($limit);
+        $qb->setFirstResult(($page-1) * $limit);
 
         $qb->orderBy('c.id', 'DESC');
 

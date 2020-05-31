@@ -93,6 +93,48 @@ class UserBookService extends AbstractService
         $this->save($userBook);
     }
 
+    public function createBooksToUserBookTag(User $user, int $userBookTagId, array $userBookIds)
+    {
+        $userBookTag = $this->userBookTagService->getUserBookTag($user, $userBookTagId);
+        $userBooks = $this->findBy([
+            'id' => $userBookIds,
+            'user' => $user,
+            'status' => Status::ACTIVE
+        ]);
+
+        $tempUserBookIds = [];
+
+        /**
+         * @var UserBook $userBook
+         */
+        foreach ($userBooks as $userBook) {
+            $tempUserBookIds[] = $userBook->getId();
+        }
+
+        foreach ($userBookIds as $userBookId) {
+            if (!in_array($userBookId, $tempUserBookIds)) {
+                ExceptionUtil::throwException(
+                    JsonFailureResponse::build()
+                        ->setMessage($this->translator->trans('error.user_book.not_found_from_library'))
+                        ->setInternalMessage(sprintf($this->translator->trans('error.user_book.internal_not_found_from_library'), $userBookId))
+                        ->setStatusCode(Response::HTTP_NOT_FOUND)
+                );
+            }
+        }
+
+        $count = 1;
+        /**
+         * @var UserBook $userBook
+         */
+       foreach ($userBooks as $userBook) {
+           $userBookTag->addUserBook($userBook);
+           if ((count($userBooks) >= 100 && ($count % 100) == 0) || count($userBooks) == $count) {
+               $this->save($userBookTag);
+           }
+           $count++;
+       }
+    }
+
     protected function getRepository() : UserBookRepository
     {
         return parent::getRepository();
