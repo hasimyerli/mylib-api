@@ -5,11 +5,14 @@ namespace App\Controller\Api\User;
 use App\Controller\Api\ApiAbstractController;
 use App\Entity\UserBook;
 use App\Entity\UserBookTag;
+use App\Form\GetUserBookTagsType;
 use App\Form\UserBookTagType;
 use App\Form\UserBookType\UserBookType;
 use App\Formatter\UserBookFormatter;
 use App\Formatter\UserBookListFormatter;
 use App\Formatter\UserBookTagFormatter;
+use App\Formatter\UserBookTagsFormatter;
+use App\Model\BaseFilterModel;
 use App\Response\ApiResponse\JsonSuccessResponse;
 use App\Form\UserBookType\SaveUserBookType;
 use App\Service\User\UserBookService;
@@ -110,6 +113,31 @@ class UserBookTagController extends ApiAbstractController
 
         return JsonSuccessResponse::build()
             ->setMessage($this->getTranslator()->trans('success.user_book.tag.deleted'))
+            ->getResponse();
+    }
+
+    /**
+     * @SWG\Response(response=200, description="Deletes user book tag")
+     * @SWG\Parameter(name="page", in="query", type="number", required=true, default=1)
+     * @SWG\Parameter(name="searchText", in="query", type="string", required=false)
+     * @SWG\Parameter(name="sort", in="query", type="string", required=true, default="name", enum={"id", "name"})
+     * @SWG\Parameter(name="order", in="query", type="string", required=true, default="desc", enum={"desc", "asc"})
+     * @SWG\Tag(name="User/Book/Tags")
+     *
+     * @param $userBookTagId
+     * @param Request $request
+     * @param UserBookTagService $userBookTagService
+     * @return JsonResponse
+     */
+    public function getUserBookTags(Request $request, UserBookTagService $userBookTagService)
+    {
+        $filterModel = new BaseFilterModel();
+        $this->validateForm(GetUserBookTagsType::class, $filterModel, $request);
+        $userBookTags = $userBookTagService->getUserBookTags($this->getUser(), $filterModel);
+        $userBookTagsCount = $userBookTagService->getUserBookTagsCount($this->getUser(), $filterModel);
+
+        return JsonSuccessResponse::build()
+            ->setData(UserBookTagsFormatter::format($userBookTags, $userBookTagsCount))
             ->getResponse();
     }
 

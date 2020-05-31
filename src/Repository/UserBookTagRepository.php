@@ -2,8 +2,12 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\UserBookTag;
+use App\Model\BaseFilterModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,32 +23,36 @@ class UserBookTagRepository extends ServiceEntityRepository
         parent::__construct($registry, UserBookTag::class);
     }
 
-    // /**
-    //  * @return UserBookTag[] Returns an array of UserBookTag objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getUserBookTags(User $user, BaseFilterModel $filterModel)
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        return $this->getUserBookTagsBaseQuery($user, $filterModel)
+            ->setMaxResults($filterModel->getLimit())
+            ->addOrderBy('ubt.' . $filterModel->getSort(), $filterModel->getOrder())
+            ->setFirstResult($filterModel->getOffset())
+            ->getQuery()->getResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?UserBookTag
+    public function getUserBookTagsCount(User $user, BaseFilterModel $filterModel) : int
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
+        return $this->getUserBookTagsBaseQuery($user, $filterModel)
+            ->select('count(ubt.id)')
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getSingleScalarResult();
     }
-    */
+
+    private function getUserBookTagsBaseQuery(User $user, BaseFilterModel $filterModel) : QueryBuilder
+    {
+        $query = $this
+            ->createQueryBuilder('ubt')
+            ->where('ubt.user = :user')
+            ->setParameter('user', $user);
+
+        if($filterModel->getSearchText() !== null)
+        {
+            $query->andWhere('ubt.name LIKE :name')
+                ->setParameter('name',  '%' . $filterModel->getSearchText() . '%');
+        }
+
+        return $query;
+    }
 }

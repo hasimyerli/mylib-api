@@ -38,7 +38,6 @@ class UserBookTagType extends BaseType
                     'constraints' => [
                         new Length([
                             "max" => 10,
-
                         ]),
                         new NotBlank(),
                         new Regex(['pattern' => '/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/', 'match' => true, 'message' => $this->translator->trans('error.user_book.tag.color_invalid')])
