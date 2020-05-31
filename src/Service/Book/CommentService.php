@@ -7,6 +7,8 @@ namespace App\Service\Book;
 use App\Entity\Book;
 use App\Entity\Comment;
 use App\Entity\User;
+use App\Entity\UserBook;
+use App\Entity\UserBookTag;
 use App\Enum\Status;
 use App\Formatter\CommentTreeFormatter;
 use App\Repository\CommentRepository;
@@ -32,40 +34,21 @@ class CommentService extends AbstractService
 
     /**
      * @param $bookId
-     * @param $parentId
-     * @return array
+     * @return int|mixed|string
      */
-    public function getComments($bookId, $parentId)
+    public function getTotalComment($bookId)
     {
-        return $this->getCommentTree($bookId, $parentId);
+        return $this->getRepository()->getTotalComment($bookId);
     }
 
     /**
-     * TODO:: Tek sorguya indirilmek üzere refactor edilecek.
-     *
      * @param $bookId
-     * @param $parentId
-     * @return array
+     * @param $page
+     * @return int|mixed|string
      */
-    private function getCommentTree($bookId, $parentId)
+    public function getComments($bookId, $page)
     {
-        $parentCommentIds = [];
-        $lastParentChildComments = [];
-
-        $lastParentComments = $this->getRepository()->getLastParentComments($bookId, $parentId);
-
-        /**
-         * @var Comment $parentComment
-         */
-        foreach ($lastParentComments as $parentComment) {
-            $parentCommentIds[] = $parentComment->getId();
-        }
-
-        if ($parentCommentIds) {
-            $lastParentChildComments = $this->getRepository()->getLastParentChildComments($bookId, $parentCommentIds);
-        }
-
-        return CommentTreeFormatter::format($lastParentComments, $lastParentChildComments);
+        return $this->getRepository()->getComments($bookId, $page);
     }
 
     /**
