@@ -2,8 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\UserBookList;
+use App\Model\BaseFilterModel;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,32 +22,36 @@ class UserBookListRepository extends ServiceEntityRepository
         parent::__construct($registry, UserBookList::class);
     }
 
-    // /**
-    //  * @return BookList[] Returns an array of BookList objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getUserBookLists(User $user, BaseFilterModel $filterModel)
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('b.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        return $this->getUserBookListsBaseQuery($user, $filterModel)
+            ->setMaxResults($filterModel->getLimit())
+            ->addOrderBy('ubl.' . $filterModel->getSort(), $filterModel->getOrder())
+            ->setFirstResult($filterModel->getOffset())
+            ->getQuery()->getResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?BookList
+    public function getUserBookListsCount(User $user, BaseFilterModel $filterModel) : int
     {
-        return $this->createQueryBuilder('b')
-            ->andWhere('b.exampleField = :val')
-            ->setParameter('val', $value)
+        return $this->getUserBookListsBaseQuery($user, $filterModel)
+            ->select('count(ubl.id)')
             ->getQuery()
-            ->getOneOrNullResult()
-        ;
+            ->getSingleScalarResult();
     }
-    */
+
+    private function getUserBookListsBaseQuery(User $user, BaseFilterModel $filterModel) : QueryBuilder
+    {
+        $query = $this
+            ->createQueryBuilder('ubl')
+            ->where('ubl.user = :user')
+            ->setParameter('user', $user);
+
+        if($filterModel->getSearchText() !== null)
+        {
+            $query->andWhere('ubl.name LIKE :name')
+                ->setParameter('name',  '%' . $filterModel->getSearchText() . '%');
+        }
+
+        return $query;
+    }
 }

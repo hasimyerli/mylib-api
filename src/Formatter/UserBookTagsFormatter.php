@@ -9,7 +9,6 @@ use Doctrine\Common\Collections\Collection;
 
 class UserBookTagsFormatter
 {
-
     public static function format(array $userBookTags, int $userBookTagsCount)
     {
         $data = [
