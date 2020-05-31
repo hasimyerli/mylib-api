@@ -5,6 +5,7 @@ namespace App\Service\User;
 use App\Entity\User;
 use App\Entity\UserBook;
 use App\Entity\UserBookList;
+use App\Entity\UserBookTag;
 use App\Enum\Status;
 use App\Repository\UserBookRepository;
 use App\Response\ApiResponse\JsonFailureResponse;
@@ -102,6 +103,47 @@ class UserBookService extends AbstractService
             'status' => Status::ACTIVE
         ]);
 
+        $this->checkBulkInsertAndDeleteUserBookFromUserBookTag($userBooks, $userBookIds);
+
+        $count = 1;
+        /**
+         * @var UserBook $userBook
+         */
+        foreach ($userBooks as $userBook) {
+            $userBookTag->addUserBook($userBook);
+            if ($this->isBulkInsertAndDeleteUserBookFromUserBookTag($userBooks, $count) || (count($userBooks) == $count)) {
+                $this->save($userBookTag);
+            }
+            $count++;
+        }
+    }
+
+    public function deleteBooksFromUserBookTag(User $user, int $userBookTagId, array $userBookIds)
+    {
+        $userBookTag = $this->userBookTagService->getUserBookTag($user, $userBookTagId);
+        $userBooks = $this->findBy([
+            'id' => $userBookIds,
+            'user' => $user,
+            'status' => Status::ACTIVE
+        ]);
+
+        $this->checkBulkInsertAndDeleteUserBookFromUserBookTag($userBooks, $userBookIds);
+
+        $count = 1;
+        /**
+         * @var UserBook $userBook
+         */
+        foreach ($userBooks as $userBook) {
+            $userBookTag->removeUserBook($userBook);
+            if ($this->isBulkInsertAndDeleteUserBookFromUserBookTag($userBooks, $count) || (count($userBooks) == $count)) {
+                $this->save($userBookTag);
+            }
+            $count++;
+        }
+    }
+
+    private function checkBulkInsertAndDeleteUserBookFromUserBookTag($userBooks, $userBookIds)
+    {
         $tempUserBookIds = [];
 
         /**
@@ -121,18 +163,11 @@ class UserBookService extends AbstractService
                 );
             }
         }
+    }
 
-        $count = 1;
-        /**
-         * @var UserBook $userBook
-         */
-       foreach ($userBooks as $userBook) {
-           $userBookTag->addUserBook($userBook);
-           if ((count($userBooks) >= 100 && ($count % 100) == 0) || count($userBooks) == $count) {
-               $this->save($userBookTag);
-           }
-           $count++;
-       }
+    private function isBulkInsertAndDeleteUserBookFromUserBookTag(array $data, int $count)
+    {
+        return (count($data) >= 100 && ($count % 100) == 0);
     }
 
     protected function getRepository() : UserBookRepository
