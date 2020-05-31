@@ -41,12 +41,15 @@ class ApiAbstractController extends AbstractController
      * @param Request $request
      * @param array $requestParams
      */
-    protected function validateForm($formType, $entity, $request, &$requestParams = [])
+    protected function validateForm($formType, $entity, Request $request, &$requestParams = [])
     {
         $validatedForm = new ValidatedForm();
-
         $form =  $this->createForm($formType, $entity);
-        $requestParams = json_decode($request->getContent(), true);
+
+        $getParams = $request->query->all() ?? [];
+        $postParams = json_decode($request->getContent(), true) ?? [];
+        $requestParams = array_merge($getParams, $postParams);
+
         $form->submit($requestParams);
 
         $validatedForm->setValid($form->isSubmitted() && $form->isValid());

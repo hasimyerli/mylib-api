@@ -6,11 +6,14 @@ use App\Entity\User;
 use App\Entity\UserBook;
 use App\Entity\UserBookTag;
 use App\Enum\Status;
+use App\Model\BaseFilterModel;
 use App\Repository\UserBookTagRepository;
 use App\Response\ApiResponse\JsonFailureResponse;
 use App\Service\AbstractService;
 use App\Service\Book\BookService;
 use App\Util\ExceptionUtil;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,6 +47,16 @@ class UserBookTagService extends AbstractService
     public function updateUserBookTag(User $user, UserBookTag $userBookTag)
     {
         return $this->saveUserBookTag($user, $userBookTag);
+    }
+
+    public function getUserBookTags(User $user, BaseFilterModel $filterModel): Array
+    {
+         return $this->getRepository()->getUserBookTags($user, $filterModel);
+    }
+
+    public function getUserBookTagsCount(User $user, BaseFilterModel $filterModel): int
+    {
+        return $this->getRepository()->getUserBookTagsCount($user, $filterModel);
     }
 
     public function getUserBookTag(User $user, int $userBookTagId): UserBookTag

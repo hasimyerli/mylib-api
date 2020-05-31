@@ -58,6 +58,11 @@ user_book_tags_delete:
   controller: App\Controller\Api\User\UserBookTagController:deleteUserBookTag
   methods: [DELETE]
 
+user_book_tags_get:
+  path: /user/book/tags
+  controller: App\Controller\Api\User\UserBookTagController:getUserBookTags
+  methods: [GET]
+
 user_book_tags_books_post:
   path: /user/book/tags/{userBookTagId}/books
   controller: App\Controller\Api\User\UserBookController:createBooksToUserBookTag
