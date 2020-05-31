@@ -9,38 +9,21 @@ use App\Entity\Comment;
 class CommentTreeFormatter
 {
     /**
-     * @param array $parentComments
-     * @param array $childComments
+     * @param array $comments
+     * @param int $total
      * @return array
      */
-    public static function format(array $parentComments, array $childComments): array
+    public static function format(array $comments, int $total): array
     {
-        $comments = [];
-        $parentCount = 0;
-
+        $data = [];
+        $data['total'] = $total;
         /**
-         * @var Comment $parentComment
+         * @var Comment $comment
          */
-        foreach ($parentComments as $parentComment) {
-            $comments[$parentCount]['id'] = $parentComment->getId();
-            $comments[$parentCount]['text'] = $parentComment->getText();
-            $comments[$parentCount]['childs'] = [];
-
-            $childCount = 0;
-
-            /**
-             * @var Comment $childComment
-             */
-            foreach ($childComments as $childKey =>  $childComment) {
-                if ($childComment->getParent() === $parentComment) {
-                    $comments[$parentCount]['childs'][$childCount]['id'] = $childComment->getId();
-                    $comments[$parentCount]['childs'][$childCount]['text'] = $childComment->getText();
-                    $childCount++;
-                    unset($childComments[$childKey]);
-                }
-            }
-            $parentCount++;
+        foreach ($comments as $key => $comment) {
+            $data['comments'][$key]['id'] = $comment->getId();
+            $data['comments'][$key]['text'] = $comment->getText();
         }
-        return $comments;
+        return $data;
     }
 }

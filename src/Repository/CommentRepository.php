@@ -33,42 +33,37 @@ class CommentRepository extends ServiceEntityRepository
             ->execute();
     }
 
-    public function getLastParentComments($bookId, $parentId, $limit = 10)
+    public function getTotalComment($bookId)
     {
-        $qb = $this->createQueryBuilder('c');
+        return $this->createQueryBuilder('c')
+            ->select('count(c.id)')
+            ->andWhere('c.book = :book')
+            ->setParameter('book', $bookId)
+            ->andWhere('c.status = :status')
+            ->setParameter('status', Status::ACTIVE)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 
-        if ($parentId) {
-            $qb->where('c.parent = (:parent)')
-                ->setParameter('parent', $parentId);
-        } else {
-            $qb->where('c.parent is null');
-        }
+    public function getComments($bookId, $page = 1, $limit = 20)
+    {
+        $page = ($page > 1) ? $page: 1;
+        $limit = $limit < 100 ? $limit : 20;
+
+        $qb = $this->createQueryBuilder('c');
+        $qb->where('c.parent is null');
 
         $qb->andWhere('c.book = :book')
             ->setParameter('book', $bookId);
 
-        $qb->andWhere('c.status = :status')
-            ->setParameter('status', Status::ACTIVE);
+        $qb->andWhere('c.status = :status');
+        $qb->setParameter('status', Status::ACTIVE);
 
-        $qb->setMaxResults($limit)
-            ->orderBy('c.id', 'DESC');
+        $qb->setMaxResults($limit);
+        $qb->setFirstResult(($page-1) * $limit);
+
+        $qb->orderBy('c.id', 'DESC');
 
         return $qb->getQuery()->getResult();
-    }
-
-    public function getLastParentChildComments($bookId, $parentIds, $limit = 5)
-    {
-        $qb = $this->createQueryBuilder('c');
-        return $qb
-            ->where('c.book = :book')
-            ->andWhere('c.parent in (:parent)')
-            ->andWhere('c.status = :status')
-            ->setParameter('book', $bookId)
-            ->setParameter('parent', $parentIds)
-            ->setParameter('status', Status::ACTIVE)
-            ->setMaxResults($limit)
-            ->orderBy('c.id', 'DESC')
-            ->getQuery()
-            ->getResult();
     }
 }

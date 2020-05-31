@@ -5,6 +5,7 @@ namespace App\Controller\Api\Book;
 use App\Entity\Comment;
 use App\Form\CommentType\CommentCreateType;
 use App\Form\CommentType\CommentUpdateType;
+use App\Formatter\CommentTreeFormatter;
 use App\Response\ApiResponse\JsonSuccessResponse;
 use App\Service\Book\CommentService;
 use App\Controller\Api\ApiAbstractController;
@@ -21,19 +22,27 @@ class CommentController extends ApiAbstractController
      *     response=200,
      *     description="return book's comments.",
      * )
+     * @SWG\Parameter(
+     *     name="page",
+     *     in="query",
+     *     type="integer",
+     *     description="page number"
+     *  ),
      * @SWG\Tag(name="Book / Comment")
      * @Security(name="Bearer")
      *
      * @param $bookId
-     * @param $parentId
+     * @param Request $request
      * @param CommentService $commentService
      * @return JsonResponse
      */
-    public function getComments($bookId, $parentId, CommentService $commentService)
+    public function getComments(int $bookId, Request $request, CommentService $commentService)
     {
-        $comments = $commentService->getComments($bookId, $parentId);
+        $page = $request->get('page');
+        $comments = $commentService->getComments($bookId, $page);
+        $totalComment = $commentService->getTotalComment($bookId);
         return JsonSuccessResponse::build()
-            ->setData($comments)
+            ->setData(CommentTreeFormatter::format($comments, $totalComment))
             ->getResponse();
     }
 
