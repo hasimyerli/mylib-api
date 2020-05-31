@@ -62,3 +62,8 @@ user_book_tags_books_post:
   path: /user/book/tags/{userBookTagId}/books
   controller: App\Controller\Api\User\UserBookController:createBooksToUserBookTag
   methods: [POST]
+
+user_book_tags_books_delete:
+  path: /user/book/tags/{userBookTagId}/books
+  controller: App\Controller\Api\User\UserBookController:deleteBooksFromUserBookTag
+  methods: [DELETE]

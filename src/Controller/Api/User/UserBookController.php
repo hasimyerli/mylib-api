@@ -178,4 +178,35 @@ class UserBookController extends ApiAbstractController
             ->setMessage($this->getTranslator()->trans('success.user_book.added_into_tag_list'))
             ->getResponse();
     }
+
+    /**
+     * @SWG\Response(
+     *     response=200,
+     *     description="add books to user book tag"
+     * )
+     * @SWG\Parameter(
+     *     name="body",
+     *     in="body",
+     *     type="string",
+     *     required=true,
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(property="userBookIds", type="array", @SWG\Items(type="number")),
+     *     )
+     * )
+     * @SWG\Tag(name="User/Books")
+     *
+     * @param $userBookTagId
+     * @param Request $request
+     * @param UserBookService $userBookService
+     * @return JsonResponse
+     */
+    public function deleteBooksFromUserBookTag($userBookTagId, Request $request, UserBookService $userBookService)
+    {
+        $requestParams = json_decode($request->getContent(), true);
+        $userBookService->deleteBooksFromUserBookTag($this->getUser(), $userBookTagId, $requestParams['userBookIds']);
+        return JsonSuccessResponse::build()
+            ->setMessage($this->getTranslator()->trans('success.user_book.delete_from_tag_list'))
+            ->getResponse();
+    }
 }

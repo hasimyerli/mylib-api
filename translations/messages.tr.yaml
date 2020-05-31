@@ -34,6 +34,7 @@ success:
     info_updated: Kitap bilgileriniz güncellendi!
     deleted_from_library: Kitap kütüphanenizden silindi!
     added_into_tag_list: Kitaplar tag listesine eklendi!
+    delete_from_tag_list: Kitaplar tag listesinden silindi!
     list:
       added: Liste oluşturuldu!
       name_updated: Liste ismi güncellendi!
