@@ -43,6 +43,11 @@ user_book_lists_delete:
   controller: App\Controller\Api\User\UserBookListController:deleteUserBookList
   methods: [DELETE]
 
+user_book_lists_get:
+  path: /user/book/lists
+  controller: App\Controller\Api\User\UserBookListController:getUserBookLists
+  methods: [GET]
+
 user_book_tags_post:
   path: /user/book/tags
   controller: App\Controller\Api\User\UserBookTagController:saveUserBookTag

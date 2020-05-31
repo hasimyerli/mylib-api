@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Entity\UserBook;
 use App\Entity\UserBookList;
 use App\Enum\Status;
+use App\Model\BaseFilterModel;
 use App\Repository\UserBookListRepository;
 use App\Response\ApiResponse\JsonFailureResponse;
 use App\Service\AbstractService;
@@ -63,6 +64,16 @@ class UserBookListService extends AbstractService
         }
 
         return $userBookList;
+    }
+
+    public function getUserBookLists(User $user, BaseFilterModel $filterModel): Array
+    {
+        return $this->getRepository()->getUserBookLists($user, $filterModel);
+    }
+
+    public function getUserBookListsCount(User $user, BaseFilterModel $filterModel): int
+    {
+        return $this->getRepository()->getUserBookListsCount($user, $filterModel);
     }
 
     public function deleteUserBookList(User $user, int $userBookListId)

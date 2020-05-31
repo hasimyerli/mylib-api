@@ -124,7 +124,6 @@ class UserBookTagController extends ApiAbstractController
      * @SWG\Parameter(name="order", in="query", type="string", required=true, default="desc", enum={"desc", "asc"})
      * @SWG\Tag(name="User/Book/Tags")
      *
-     * @param $userBookTagId
      * @param Request $request
      * @param UserBookTagService $userBookTagService
      * @return JsonResponse
