@@ -17,8 +17,13 @@ services:
   php-fpm:
     build:
       context: docker/php-fpm
+    links:
+      - elasticsearch
     depends_on:
       - database
+      - elasticsearch
+    networks:
+      - general
     environment:
       - APP_ENV=${APP_ENV}
       - APP_SECRET=${APP_SECRET}
@@ -38,16 +43,21 @@ services:
       - ./docker/logs:/var/log
     depends_on:
       - php-fpm
+    networks:
+      - general
     ports:
       - "${NGINX_HTTP_PORT}:80"
       - "${NGINX_HTTPS_PORT}:443"
 
   elasticsearch:
+    container_name: ${ELASTICSEARCH_HOST}
     build:
       context: docker/elasticsearch
     environment:
       - xpack.security.enabled=false
       - discovery.type=single-node
+      - cluster.name=es01-mylib
+      - node.name=es01
     ulimits:
       memlock:
         soft: -1
@@ -57,7 +67,13 @@ services:
         hard: 65536
     cap_add:
       - IPC_LOCK
+    networks:
+      - general
     volumes:
       - ./docker/elasticsearch/data:/usr/share/elasticsearch/data
     ports:
       - ${ELASTICSEARCH_PORT}:9200
+
+networks:
+  general:
+    driver: bridge
