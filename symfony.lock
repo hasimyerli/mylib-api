@@ -87,6 +87,12 @@
     "ezimuel/ringphp": {
         "version": "1.1.2"
     },
+    "guzzlehttp/ringphp": {
+        "version": "1.1.1"
+    },
+    "guzzlehttp/streams": {
+        "version": "3.0.0"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },

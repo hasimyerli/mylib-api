@@ -5,6 +5,7 @@ namespace App\Service\Book;
 
 
 use App\Entity\Book;
+use App\Model\BookFilterModel;
 use App\Repository\BookRepository;
 use App\Response\ApiResponse\JsonFailureResponse;
 use App\Service\AbstractService;
@@ -37,6 +38,11 @@ class BookService extends AbstractService
         }
 
         return $book;
+    }
+
+    public function getBooks(BookFilterModel $bookFilterModel): \stdClass
+    {
+        return $this->getRepository()->getBooks($bookFilterModel);
     }
 
     protected function getRepository() : BookRepository
