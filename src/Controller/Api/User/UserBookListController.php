@@ -5,8 +5,7 @@ namespace App\Controller\Api\User;
 use App\Controller\Api\ApiAbstractController;
 use App\Entity\UserBook;
 use App\Entity\UserBookList;
-use App\Form\GetUserBookListsType;
-use App\Form\GetUserBookTagsType;
+use App\Form\BookListType;
 use App\Form\UserBookListType\UserBookListType;
 use App\Form\UserBookType\UserBookType;
 use App\Formatter\UserBookFormatter;
@@ -129,7 +128,7 @@ class UserBookListController extends ApiAbstractController
     public function getUserBookLists(Request $request, UserBookListService $userBookListService)
     {
         $filterModel = new BaseFilterModel();
-        $this->validateForm(GetUserBookListsType::class, $filterModel, $request);
+        $this->validateForm(BookListType::class, $filterModel, $request);
         $userBookLists = $userBookListService->getUserBookLists($this->getUser(), $filterModel);
         $userBookListsCount = $userBookListService->getUserBookListsCount($this->getUser(), $filterModel);
 

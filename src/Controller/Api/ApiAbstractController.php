@@ -21,8 +21,14 @@ class ApiAbstractController extends AbstractController
         $this->translator = $translator;
     }
 
+    protected function getContainer()
+    {
+        return $this->container;
+    }
+
     protected function getFormValidations(FormInterface $form)
     {
+
         $errors = array();
         foreach ($form->getErrors() as $error) {
             $errors[] = $error->getMessage();

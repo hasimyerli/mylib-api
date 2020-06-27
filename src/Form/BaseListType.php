@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Range;
 use Symfony\Component\Validator\Constraints\Regex;
 
-class GetUserBookListsType extends BaseType
+class BaseListType extends BaseType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {

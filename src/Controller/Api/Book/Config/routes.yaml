@@ -1,3 +1,8 @@
+books_get:
+  path: /books
+  controller: App\Controller\Api\Book\BookController:getBooks
+  methods: [GET]
+
 book_rate_post:
   path: /books/{bookId}/rate
   controller: App\Controller\Api\Book\RateController:upsertRate

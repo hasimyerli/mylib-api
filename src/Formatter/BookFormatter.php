@@ -4,22 +4,27 @@
 namespace App\Formatter;
 
 
+use App\Document\BookDocument;
 use App\Entity\Book;
 use App\Entity\UserBook;
 
 class BookFormatter
 {
-    public static function format(Book $book): array
+    public static function format(BookDocument $book): array
     {
         return [
             'id' => $book->getId(),
-            'barcode' => $book->getBarcode(),
-            'description' => $book->getDescription(),
-            'editionNumber' => $book->getEditionNumber(),
-            'language' => $book->getLanguage()->getName(),
-            'pageNumber' => $book->getPageNumber(),
             'title' => $book->getTitle(),
-            'volumeType' => $book->getVolumeType()
+            'barcode' => $book->getBarcode(),
+            'editionNumber' => $book->getEditionNumber(),
+            'authors' => $book->getAuthors(),
+            'publishers' => $book->getPublishers(),
+            'translators' => $book->getTranslators(),
+            'totalRateValue' => $book->getTotalRateValue(),
+            'categories' => $book->getCategories(),
+            'language' => $book->getLanguage(),
+            'pageNumber' => $book->getPageNumber(),
+            'description' => $book->getDescription()
         ];
     }
 }
