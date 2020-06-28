@@ -34,6 +34,8 @@ success:
     deleted_from_library: The book was deleted from your library!
     added_into_tag_list: Books were added to the tag list!
     delete_from_tag_list: Books were deleted to the tag list!
+    added_into_list: Books were added to the list!
+    delete_from_list: Books were deleted to the list!
     list:
       added: List was created!
       name_updated: List name was updated!

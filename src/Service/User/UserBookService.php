@@ -4,8 +4,6 @@ namespace App\Service\User;
 
 use App\Entity\User;
 use App\Entity\UserBook;
-use App\Entity\UserBookList;
-use App\Entity\UserBookTag;
 use App\Enum\Status;
 use App\Repository\UserBookRepository;
 use App\Response\ApiResponse\JsonFailureResponse;
@@ -103,7 +101,7 @@ class UserBookService extends AbstractService
             'status' => Status::ACTIVE
         ]);
 
-        $this->checkBulkInsertAndDeleteUserBookFromUserBookTag($userBooks, $userBookIds);
+        $this->checkBulkInsertAndDeleteUserBook($userBooks, $userBookIds);
 
         $count = 1;
         /**
@@ -111,7 +109,7 @@ class UserBookService extends AbstractService
          */
         foreach ($userBooks as $userBook) {
             $userBookTag->addUserBook($userBook);
-            if ($this->isBulkInsertAndDeleteUserBookFromUserBookTag($userBooks, $count) || (count($userBooks) == $count)) {
+            if ($this->isBulkInsertAndDeleteUserBook($userBooks, $count) || (count($userBooks) == $count)) {
                 $this->save($userBookTag);
             }
             $count++;
@@ -127,7 +125,7 @@ class UserBookService extends AbstractService
             'status' => Status::ACTIVE
         ]);
 
-        $this->checkBulkInsertAndDeleteUserBookFromUserBookTag($userBooks, $userBookIds);
+        $this->checkBulkInsertAndDeleteUserBook($userBooks, $userBookIds);
 
         $count = 1;
         /**
@@ -135,14 +133,62 @@ class UserBookService extends AbstractService
          */
         foreach ($userBooks as $userBook) {
             $userBookTag->removeUserBook($userBook);
-            if ($this->isBulkInsertAndDeleteUserBookFromUserBookTag($userBooks, $count) || (count($userBooks) == $count)) {
+            if ($this->isBulkInsertAndDeleteUserBook($userBooks, $count) || (count($userBooks) == $count)) {
                 $this->save($userBookTag);
             }
             $count++;
         }
     }
 
-    private function checkBulkInsertAndDeleteUserBookFromUserBookTag($userBooks, $userBookIds)
+    public function createBooksToUserBookList(User $user, int $userBookListId, array $userBookIds)
+    {
+        $userBookList = $this->userBookListService->getUserBookList($user, $userBookListId);
+        $userBooks = $this->findBy([
+            'id' => $userBookIds,
+            'user' => $user,
+            'status' => Status::ACTIVE
+        ]);
+
+        $this->checkBulkInsertAndDeleteUserBook($userBooks, $userBookIds);
+
+        $count = 1;
+        /**
+         * @var UserBook $userBook
+         */
+        foreach ($userBooks as $userBook) {
+            $userBookList->addUserBook($userBook);
+            if ($this->isBulkInsertAndDeleteUserBook($userBooks, $count) || (count($userBooks) == $count)) {
+                $this->save($userBookList);
+            }
+            $count++;
+        }
+    }
+
+    public function deleteBooksFromUserBookList(User $user, int $userBookListId, array $userBookIds)
+    {
+        $userBookList = $this->userBookListService->getUserBookList($user, $userBookListId);
+        $userBooks = $this->findBy([
+            'id' => $userBookIds,
+            'user' => $user,
+            'status' => Status::ACTIVE
+        ]);
+
+        $this->checkBulkInsertAndDeleteUserBook($userBooks, $userBookIds);
+
+        $count = 1;
+        /**
+         * @var UserBook $userBook
+         */
+        foreach ($userBooks as $userBook) {
+            $userBookList->removeUserBook($userBook);
+            if ($this->isBulkInsertAndDeleteUserBook($userBooks, $count) || (count($userBooks) == $count)) {
+                $this->save($userBookList);
+            }
+            $count++;
+        }
+    }
+
+    private function checkBulkInsertAndDeleteUserBook($userBooks, $userBookIds)
     {
         $tempUserBookIds = [];
 
@@ -165,7 +211,7 @@ class UserBookService extends AbstractService
         }
     }
 
-    private function isBulkInsertAndDeleteUserBookFromUserBookTag(array $data, int $count)
+    private function isBulkInsertAndDeleteUserBook(array $data, int $count)
     {
         return (count($data) >= 100 && ($count % 100) == 0);
     }
