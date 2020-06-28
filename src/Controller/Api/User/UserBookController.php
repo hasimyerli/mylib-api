@@ -209,4 +209,66 @@ class UserBookController extends ApiAbstractController
             ->setMessage($this->getTranslator()->trans('success.user_book.delete_from_tag_list'))
             ->getResponse();
     }
+
+    /**
+     * @SWG\Response(
+     *     response=200,
+     *     description="add books to user book list"
+     * )
+     * @SWG\Parameter(
+     *     name="body",
+     *     in="body",
+     *     type="string",
+     *     required=true,
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(property="userBookIds", type="array", @SWG\Items(type="number")),
+     *     )
+     * )
+     * @SWG\Tag(name="User/Books")
+     *
+     * @param $userBookListId
+     * @param Request $request
+     * @param UserBookService $userBookService
+     * @return JsonResponse
+     */
+    public function createBooksToUserBookList($userBookListId, Request $request, UserBookService $userBookService)
+    {
+        $requestParams = json_decode($request->getContent(), true);
+        $userBookService->createBooksToUserBookList($this->getUser(), $userBookListId, $requestParams['userBookIds']);
+        return JsonSuccessResponse::build()
+            ->setMessage($this->getTranslator()->trans('success.user_book.added_into_list'))
+            ->getResponse();
+    }
+
+    /**
+     * @SWG\Response(
+     *     response=200,
+     *     description="add books to user book list"
+     * )
+     * @SWG\Parameter(
+     *     name="body",
+     *     in="body",
+     *     type="string",
+     *     required=true,
+     *     @SWG\Schema(
+     *         type="object",
+     *         @SWG\Property(property="userBookIds", type="array", @SWG\Items(type="number")),
+     *     )
+     * )
+     * @SWG\Tag(name="User/Books")
+     *
+     * @param $userBookListId
+     * @param Request $request
+     * @param UserBookService $userBookService
+     * @return JsonResponse
+     */
+    public function deleteBooksFromUserBookList($userBookListId, Request $request, UserBookService $userBookService)
+    {
+        $requestParams = json_decode($request->getContent(), true);
+        $userBookService->deleteBooksFromUserBookList($this->getUser(), $userBookListId, $requestParams['userBookIds']);
+        return JsonSuccessResponse::build()
+            ->setMessage($this->getTranslator()->trans('success.user_book.delete_from_list'))
+            ->getResponse();
+    }
 }
